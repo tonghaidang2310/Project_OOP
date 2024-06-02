@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="demo.signUpController">
+   <children>
+      <AnchorPane>
+         <children>
+            <AnchorPane layoutY="6.0" prefHeight="400.0" prefWidth="300.0" styleClass="right-form" stylesheets="@Design/LoginDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Button fx:id="returnBtn" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="24.0" prefWidth="48.0" styleClass="back" stylesheets="@../LoginDesign.css" textFill="WHITE" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="4.0">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" glyphName="ROTATE_LEFT" size="1.5em" />
+                     </graphic>
+                  </Button>
+                  <FontAwesomeIcon fill="WHITE" glyphName="BANK" layoutX="81.0" layoutY="183.0" size="10em" text="" />
+                  <Label layoutX="54.0" layoutY="210.0" text="Training Manager System" textFill="WHITE">
+                     <font>
+                        <Font name="Berlin Sans FB" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="244.0" layoutY="10.0" prefHeight="400.0" prefWidth="300.0" styleClass="signUp-form" stylesheets="@Design/LoginDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="101.0" layoutY="28.0" text="Register">
+                     <font>
+                        <Font name="Berlin Sans FB" size="30.0" />
+                     </font>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="0.1458333283662796" green="0.75" blue="0.7399305701255798" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="0.4298780487804878">
+                                 <color>
+                                    <Color red="0.23793859779834747" green="0.8289473652839661" blue="0.7796966433525085" opacity="0.8799999952316284" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="0.2554999887943268" green="0.7300000190734863" blue="0.690458357334137" opacity="0.8816794157028198" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                  </Label>
+                  <Button fx:id="cLose" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="48.0" styleClass="close" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                     <graphic>
+                        <FontAwesomeIcon fill="WHITE" glyphName="CLOSE" size="1.5em" />
+                     </graphic>
+                  </Button>
+                  <TextField fx:id="username" layoutX="50.0" layoutY="74.0" onAction="#signUp" prefHeight="25.0" promptText="Username" styleClass="textfield" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="75.0" />
+                  <PasswordField fx:id="password" layoutX="50.0" layoutY="185.0" onAction="#signUp" prefHeight="25.0" prefWidth="250.0" promptText="Password" styleClass="textfield" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="125.0" />
+                  <PasswordField fx:id="repassword" layoutX="75.0" layoutY="241.0" onAction="#signUp" prefHeight="25.0" prefWidth="250.0" promptText="Password" styleClass="textfield" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="175.0" />
+                  <Button fx:id="signUpBtn" layoutX="116.0" layoutY="345.0" mnemonicParsing="false" onAction="#signUp" styleClass="login-btn" text="Sign Up" AnchorPane.topAnchor="325.0" />
+                  <TextField fx:id="firstName" layoutX="50.0" layoutY="238.0" onAction="#signUp" prefHeight="25.0" prefWidth="95.0" promptText="First name" styleClass="textfield" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="225.0" />
+                  <TextField fx:id="lastName" layoutX="153.0" layoutY="238.0" onAction="#signUp" prefHeight="25.0" prefWidth="95.0" promptText="Last name" styleClass="textfield" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="225.0" />
+                  <ComboBox fx:id="chooseGender" layoutX="50.0" layoutY="272.0" onAction="#initialize" prefHeight="25.0" prefWidth="150.0" promptText="Choose gender" styleClass="textfield" AnchorPane.topAnchor="275.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
