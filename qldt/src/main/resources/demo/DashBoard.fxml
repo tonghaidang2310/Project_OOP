@@ -196,7 +196,7 @@
                         </AnchorPane>
                         <AnchorPane layoutX="79.0" layoutY="129.0" prefHeight="555.0" prefWidth="887.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <AnchorPane layoutX="5.0" layoutY="5.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                              <AnchorPane layoutX="5.0" layoutY="5.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@Design/DashBoardDesign.css" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                  <styleClass>
                                     <String fx:value="nav2" />
                                     <String fx:value="shadow" />
@@ -218,6 +218,36 @@
                                           <TableColumn prefWidth="116.0" text="Số lượng" />
                                       </columns>
                                     </TableView>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="68.0" layoutY="55.0" prefHeight="555.0" prefWidth="887.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <AnchorPane layoutX="14.0" layoutY="43.0" prefHeight="545.0" prefWidth="129.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                       <children>
+                                          <Button layoutX="39.0" layoutY="14.0" mnemonicParsing="false" text="Inbox" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="9.0">
+                                             <graphic>
+                                                <FontAwesomeIcon glyphName="INBOX" size="1.5em" text="" />
+                                             </graphic>
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <styleClass>
+                                                <String fx:value="nav-btn" />
+                                                <String fx:value="shadow" />
+                                             </styleClass>
+                                          </Button>
+                                       </children>
+                                       <styleClass>
+                                          <String fx:value="nav2" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="154.0" layoutY="30.0" prefHeight="545.0" prefWidth="740.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                       <styleClass>
+                                          <String fx:value="nav2" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                    </AnchorPane>
                                  </children>
                               </AnchorPane>
                            </children>
