@@ -101,7 +101,7 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <Button layoutX="-2.0" layoutY="339.0" mnemonicParsing="false" onAction="#switchToSignUp" styleClass="signout" stylesheets="@../DashBoardDesign.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0">
+                              <Button layoutX="-2.0" layoutY="339.0" mnemonicParsing="false" onAction="#switchToLogin" styleClass="signout" stylesheets="@../DashBoardDesign.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0">
                                  <graphic>
                                     <FontAwesomeIcon fill="WHITE" glyphName="SIGN_OUT" size="1.5em" />
                                  </graphic>

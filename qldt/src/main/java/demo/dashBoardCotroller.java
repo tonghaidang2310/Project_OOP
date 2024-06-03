@@ -6,8 +6,8 @@ import javafx.fxml.FXML;
 
 public class dashBoardCotroller {
     @FXML
-    private void switchToSignUp() throws IOException {
-        App.setRoot("SignUp");
+    private void switchToLogin() throws IOException {
+        App.setRoot("SignIn");
     }
 
     @FXML
