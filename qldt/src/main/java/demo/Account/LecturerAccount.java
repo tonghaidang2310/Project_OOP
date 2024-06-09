@@ -10,6 +10,11 @@ public class LecturerAccount extends Account{
         this.Lecturerid = new AccountDAO().generateUniqueLecturerID();
     }
 
+    public LecturerAccount(String id, String username, String password, String lecturerid) {
+        super(id, username, password, "Lecturer");
+        this.Lecturerid = lecturerid;
+    }
+
     public String getLecturerid() {
         return Lecturerid;
     }
