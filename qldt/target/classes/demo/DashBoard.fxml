@@ -2,20 +2,29 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="demo.dashBoardCotroller">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="demo.dashBoardController">
    <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane fx:id="main_form" prefHeight="200.0" prefWidth="200.0">
          <children>
             <BorderPane layoutX="91.0" layoutY="85.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <top>
@@ -23,14 +32,14 @@
                      <children>
                         <AnchorPane prefHeight="35.0" prefWidth="1100.0" styleClass="top-form" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Button layoutX="1048.0" mnemonicParsing="false" onAction="#close" styleClass="close" stylesheets="@../DashBoardDesign.css" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                              <Button fx:id="close" layoutX="1048.0" mnemonicParsing="false" onAction="#close" styleClass="close" stylesheets="@../DashBoardDesign.css" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
                                  <graphic>
                                     <FontAwesomeIcon glyphName="CLOSE" size="1.2em" textAlignment="CENTER" wrappingWidth="34.428571701049805" />
                                  </graphic>
                               </Button>
-                              <Button layoutX="999.0" layoutY="2.0" mnemonicParsing="false" styleClass="minimize" stylesheets="@../DashBoardDesign.css" AnchorPane.rightAnchor="53.0">
+                              <Button fx:id="minimize" layoutX="999.0" layoutY="2.0" mnemonicParsing="false" onAction="#minimize" styleClass="minimize" stylesheets="@../DashBoardDesign.css" AnchorPane.rightAnchor="53.0">
                                  <graphic>
-                                    <FontAwesomeIcon glyphName="MINUS" size="1.2em" textAlignment="CENTER" wrappingWidth="34.428571701049805" />
+                                    <FontAwesomeIcon glyphName="MINUS" size="1.2em" text="" textAlignment="CENTER" wrappingWidth="34.428571701049805" />
                                  </graphic>
                               </Button>
                               <FontAwesomeIcon glyphName="BOOK" layoutX="8.0" layoutY="22.0" size="1.5em" AnchorPane.topAnchor="9.0" />
@@ -55,12 +64,12 @@
                                     <Font name="Tahoma" size="15.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="6.0" layoutY="117.0" text="UNI:" textAlignment="CENTER" textFill="WHITE">
+                              <Label layoutX="6.0" layoutY="117.0" text="UN:" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font name="Tahoma" size="15.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER" layoutX="42.0" layoutY="116.0" prefHeight="21.0" prefWidth="152.0" text="Le Anh Tran" textAlignment="CENTER" textFill="WHITE">
+                              <Label fx:id="userName" layoutX="42.0" layoutY="116.0" prefHeight="21.0" prefWidth="152.0" text="Le Anh Tran" textAlignment="CENTER" textFill="WHITE">
                                  <font>
                                     <Font name="Arial Bold" size="18.0" />
                                  </font>
@@ -77,31 +86,31 @@
                               <String fx:value="shadow" />
                            </styleClass>
                            <children>
-                              <Button layoutX="9.0" layoutY="20.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="180.0" stylesheets="@../DashBoardDesign.css" text="DashBoard" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="11.0">
+                              <Button fx:id="DashBoard_btn" layoutX="9.0" layoutY="20.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="38.0" prefWidth="180.0" stylesheets="@../DashBoardDesign.css" text="DashBoard" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="11.0">
                                  <styleClass>
                                     <String fx:value="nav-btn" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <Button layoutX="10.0" layoutY="70.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="180.0" stylesheets="@../DashBoardDesign.css" text="Course" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="60.0">
+                              <Button fx:id="Course_btn" layoutX="10.0" layoutY="70.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="38.0" prefWidth="180.0" stylesheets="@../DashBoardDesign.css" text="Course" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="60.0">
                                  <styleClass>
                                     <String fx:value="nav-btn" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <Button layoutX="3.0" layoutY="118.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="180.0" stylesheets="@../DashBoardDesign.css" text="Schedule" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="108.0">
+                              <Button fx:id="Schedule_btn" layoutX="3.0" layoutY="118.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="38.0" prefWidth="180.0" stylesheets="@../DashBoardDesign.css" text="Schedule" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="108.0">
                                  <styleClass>
                                     <String fx:value="nav-btn" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <Button layoutX="4.0" layoutY="167.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="180.0" stylesheets="@../DashBoardDesign.css" text="Register" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="157.0">
+                              <Button fx:id="Register_btn" layoutX="4.0" layoutY="167.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="38.0" prefWidth="180.0" stylesheets="@../DashBoardDesign.css" text="Register" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="157.0">
                                  <styleClass>
                                     <String fx:value="nav-btn" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <Button layoutX="-2.0" layoutY="339.0" mnemonicParsing="false" onAction="#switchToLogin" styleClass="signout" stylesheets="@../DashBoardDesign.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0">
+                              <Button fx:id="logout" layoutX="-2.0" layoutY="339.0" mnemonicParsing="false" onAction="#logout" styleClass="signout" stylesheets="@../DashBoardDesign.css" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0">
                                  <graphic>
                                     <FontAwesomeIcon fill="WHITE" glyphName="SIGN_OUT" size="1.5em" />
                                  </graphic>
@@ -111,13 +120,13 @@
                                     <Font name="Tahoma" size="15.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="12.0" layoutY="210.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="180.0" text="Inbox" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="206.0">
+                              <Button fx:id="InboxForm_btn" layoutX="12.0" layoutY="210.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="38.0" prefWidth="180.0" text="Inbox" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="206.0">
                                  <styleClass>
                                     <String fx:value="nav-btn" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <Button layoutX="72.0" layoutY="258.0" mnemonicParsing="false" prefHeight="38.0" text="Setting" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="255.0">
+                              <Button fx:id="Setting_btn" layoutX="72.0" layoutY="258.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="38.0" text="Setting" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="255.0">
                                  <styleClass>
                                     <String fx:value="nav-btn" />
                                     <String fx:value="shadow" />
@@ -133,7 +142,7 @@
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
                         <Separator layoutX="-1.0" orientation="VERTICAL" prefHeight="550.0" prefWidth="10.0" AnchorPane.leftAnchor="-3.0" />
-                        <AnchorPane layoutX="158.0" layoutY="104.0" prefHeight="555.0" prefWidth="887.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="dashBoard_form" layoutX="158.0" layoutY="104.0" prefHeight="555.0" prefWidth="887.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="29.0" layoutY="50.0" prefHeight="155.0" prefWidth="877.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                  <styleClass>
@@ -144,7 +153,7 @@
                                     <AnchorPane layoutX="-19.0" layoutY="-26.0" prefHeight="131.0" prefWidth="217.0" styleClass="card" stylesheets="@../DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="5.0">
                                        <children>
                                           <FontAwesomeIcon fill="WHITE" glyphName="TASKS" layoutX="26.0" layoutY="96.0" size="5em" text="" AnchorPane.leftAnchor="26.0" />
-                                          <Label layoutX="96.0" layoutY="102.0" text="Number Of Courses" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                                          <Label fx:id="dashBoard_NOC" layoutX="96.0" layoutY="102.0" text="Number Of Courses" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                              <font>
                                                 <Font name="Tahoma Bold" size="15.0" />
                                              </font>
@@ -156,7 +165,7 @@
                                           </Label>
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="320.0" layoutY="-10.0" prefHeight="115.0" prefWidth="217.0" styleClass="card" stylesheets="@../DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="327.0" AnchorPane.topAnchor="5.0">
+                                    <AnchorPane fx:id="dashBoard_Noti" layoutX="320.0" layoutY="-10.0" prefHeight="115.0" prefWidth="217.0" styleClass="card" stylesheets="@../DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="327.0" AnchorPane.topAnchor="5.0">
                                        <children>
                                           <FontAwesomeIcon fill="WHITE" glyphName="INBOX" layoutX="29.0" layoutY="93.0" size="5em" AnchorPane.leftAnchor="26.0" />
                                           <Label layoutX="67.0" layoutY="114.0" text="Notification" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
@@ -170,7 +179,7 @@
                                              </font>
                                           </Label>
                                        </children></AnchorPane>
-                                    <AnchorPane layoutX="448.0" layoutY="14.0" prefHeight="115.0" prefWidth="217.0" styleClass="card" stylesheets="@../DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="599.0" AnchorPane.topAnchor="5.0">
+                                    <AnchorPane fx:id="dashBoard_Tuition" layoutX="448.0" layoutY="14.0" prefHeight="115.0" prefWidth="217.0" styleClass="card" stylesheets="@../DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="599.0" AnchorPane.topAnchor="5.0">
                                        <children>
                                           <FontAwesomeIcon fill="WHITE" glyphName="MONEY" layoutX="14.0" layoutY="87.0" size="5em" AnchorPane.leftAnchor="26.0" />
                                           <Label layoutX="106.0" layoutY="123.0" text="Tuition Debt" textFill="WHITE" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
@@ -194,15 +203,15 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane layoutX="79.0" layoutY="129.0" prefHeight="555.0" prefWidth="887.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="Course_form" layoutX="79.0" layoutY="129.0" prefHeight="555.0" prefWidth="887.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <AnchorPane layoutX="5.0" layoutY="5.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@Design/DashBoardDesign.css" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                              <AnchorPane layoutX="5.0" layoutY="5.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                  <styleClass>
                                     <String fx:value="nav2" />
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <TextField layoutX="21.0" layoutY="14.0" prefHeight="30.0" prefWidth="201.0" promptText="Search" styleClass="search" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                    <TextField fx:id="Course_search" layoutX="21.0" layoutY="14.0" prefHeight="30.0" prefWidth="201.0" promptText="Search" styleClass="search" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -210,48 +219,364 @@
                                     <FontAwesomeIcon glyphName="SEARCH" layoutX="29.0" layoutY="41.0" size="1.5em" text="" />
                                     <TableView layoutX="19.0" layoutY="67.0" prefHeight="324.0" prefWidth="286.0" styleClass="table-column" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="70.0">
                                       <columns>
-                                        <TableColumn prefWidth="75.0" text="STT" />
-                                        <TableColumn prefWidth="172.0" text="Mã" />
-                                          <TableColumn prefWidth="180.0" text="Môn học" />
-                                          <TableColumn prefWidth="167.0" text="Năm học" />
-                                          <TableColumn prefWidth="125.0" text="Lớp" />
-                                          <TableColumn prefWidth="116.0" text="Số lượng" />
+                                        <TableColumn fx:id="Course_col_STT" prefWidth="75.0" text="STT" />
+                                        <TableColumn fx:id="Course_col_ID" prefWidth="172.0" text="Mã" />
+                                          <TableColumn fx:id="Course_col_name" prefWidth="180.0" text="Môn học" />
+                                          <TableColumn fx:id="Course_col_schoolYear" prefWidth="167.0" text="Năm học" />
+                                          <TableColumn fx:id="Course_col_Class" prefWidth="125.0" text="Lớp" />
+                                          <TableColumn fx:id="Course_col_studentNumber" prefWidth="116.0" text="Số lượng" />
                                       </columns>
                                     </TableView>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane layoutX="68.0" layoutY="55.0" prefHeight="555.0" prefWidth="887.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="Inbox_form" prefHeight="555.0" prefWidth="887.0" stylesheets="@Design/DashBoardDesign.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane layoutY="14.0" prefHeight="545.0" prefWidth="129.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                                  <children>
-                                    <AnchorPane layoutX="14.0" layoutY="43.0" prefHeight="545.0" prefWidth="129.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                    <Button fx:id="Inbox_btn" layoutX="39.0" layoutY="14.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="111.0" text="Inbox" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="9.0">
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="INBOX" size="1.5em" text="" />
+                                       </graphic>
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="nav-btn" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                    </Button>
+                                    <Button fx:id="Send_btn" layoutX="39.0" layoutY="62.0" mnemonicParsing="false" prefHeight="30.0" text="Sent" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="57.0">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="nav-btn" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="SEND" size="1.5em" text="" />
+                                       </graphic>
+                                    </Button>
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="nav2" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                              </AnchorPane>
+                              <AnchorPane layoutX="154.0" layoutY="30.0" prefHeight="545.0" prefWidth="740.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                 <styleClass>
+                                    <String fx:value="nav2" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <AnchorPane fx:id="Inbox_InboxForm" prefHeight="545.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <AnchorPane fx:id="Inbox_SentForm" prefHeight="545.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="Register_form" prefHeight="555.0" prefWidth="887.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane layoutX="28.0" layoutY="341.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="215.0">
+                                 <styleClass>
+                                    <String fx:value="nav2" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <ScrollPane layoutX="53.0" layoutY="68.0" prefHeight="335.0" prefWidth="877.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <content>
+                                          <VBox fx:id="Register_SC_layout" prefHeight="333.0" prefWidth="875.0" spacing="10.0" styleClass="table-view">
+                                             <children>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="875.0" styleClass="column-header-background">
+                                                   <children>
+                                                      <Label prefHeight="21.0" prefWidth="373.0" styleClass="table-column" text="Course Section Name" textFill="WHITE">
+                                                         <font>
+                                                            <Font size="15.0" />
+                                                         </font>
+                                                         <opaqueInsets>
+                                                            <Insets />
+                                                         </opaqueInsets>
+                                                         <HBox.margin>
+                                                            <Insets />
+                                                         </HBox.margin>
+                                                      </Label>
+                                                      <Label prefHeight="21.0" prefWidth="256.0" styleClass="table-column" text="Main Lecturer" textFill="WHITE">
+                                                         <font>
+                                                            <Font size="15.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label prefHeight="21.0" prefWidth="124.0" styleClass="table-column" text="Enrolled" textFill="WHITE">
+                                                         <font>
+                                                            <Font size="15.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label alignment="CENTER" prefHeight="27.0" prefWidth="117.0" text="Action" textFill="WHITE">
+                                                         <font>
+                                                            <Font size="15.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </content>
+                                       <styleClass>
+                                          <String fx:value="nav2" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                    </ScrollPane>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane prefHeight="200.0" prefWidth="870.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                 <styleClass>
+                                    <String fx:value="nav2" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <TextField fx:id="Register_search" layoutX="14.0" layoutY="14.0" onKeyTyped="#registerSearchCourse" prefHeight="25.0" prefWidth="164.0" promptText="Search" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0">
+                                       <styleClass>
+                                          <String fx:value="textfield" />
+                                          <String fx:value="search" />
+                                       </styleClass>
+                                    </TextField>
+                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="21.0" layoutY="33.0" size="1.5em" wrappingWidth="11.0" />
+                                    <Separator layoutX="193.0" orientation="VERTICAL" prefHeight="200.0" />
+                                    <ComboBox fx:id="Register_status" layoutX="14.0" layoutY="79.0" prefHeight="25.0" prefWidth="164.0" promptText="Chose" styleClass="search" />
+                                    <Label layoutX="15.0" layoutY="58.0" text="Status:">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <TableView fx:id="Register_CourseName_table" layoutX="199.0" layoutY="4.0" onMouseClicked="#actionClickNameCourse" prefHeight="190.0" prefWidth="305.0" styleClass="table-column" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="5.0">
+                                      <columns>
+                                        <TableColumn fx:id="Register_CourseName_col" prefWidth="299.0" text="Courses" />
+                                      </columns>
+                                    </TableView>
+                                    <Separator layoutX="508.0" orientation="VERTICAL" prefHeight="200.0" />
+                                    <TableView fx:id="Register_Info_table" layoutX="514.0" layoutY="74.0" prefHeight="121.0" prefWidth="357.0" styleClass="table-column" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="515.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="74.0">
+                                      <columns>
+                                        <TableColumn fx:id="Register_CourseID_col" prefWidth="101.0" text="CourseID" />
+                                        <TableColumn fx:id="Register_Tuition_col" prefWidth="159.0" text="Tuition Fee" />
+                                          <TableColumn fx:id="Register_Credits_col" prefWidth="91.0" text="Credits" />
+                                      </columns>
+                                    </TableView>
+                                    <Label layoutX="605.0" layoutY="14.0" text="Information Of Course">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <textFill>
+                                          <LinearGradient endX="1.0" endY="1.0">
+                                             <stops>
+                                                <Stop>
+                                                   <color>
+                                                      <Color red="0.2878289520740509" green="0.9868420958518982" blue="0.8819901347160339" />
+                                                   </color>
+                                                </Stop>
+                                                <Stop offset="0.9899328859060402">
+                                                   <color>
+                                                      <Color red="0.08771929889917374" green="0.8184210658073425" blue="0.9473684430122375" />
+                                                   </color>
+                                                </Stop>
+                                                <Stop offset="1.0">
+                                                   <color>
+                                                      <Color red="0.08771929889917374" green="0.8184210658073425" blue="0.9473684430122375" />
+                                                   </color>
+                                                </Stop>
+                                             </stops>
+                                          </LinearGradient>
+                                       </textFill>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="Setting_form" prefHeight="555.0" prefWidth="887.0" stylesheets="@Design/DashBoardDesign.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="687.0" AnchorPane.topAnchor="5.0">
+                                 <styleClass>
+                                    <String fx:value="nav2" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <Button fx:id="changeInfo_btn" layoutX="72.0" layoutY="24.0" mnemonicParsing="false" onAction="#switchSettingForm" prefHeight="38.0" text="Change Information" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="9.0">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="nav-btn" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                    </Button>
+                                    <Button fx:id="ChangePass_btn" layoutX="72.0" layoutY="63.0" mnemonicParsing="false" onAction="#switchSettingForm" prefHeight="38.0" text="Change Password" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="56.0">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="nav-btn" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                    </Button>
+                                    <Button fx:id="Info_btn" layoutX="72.0" layoutY="113.0" mnemonicParsing="false" onAction="#switchSettingForm" prefHeight="38.0" text="Information" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="103.0">
+                                       <styleClass>
+                                          <String fx:value="nav-btn" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                    </Button>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="444.0" layoutY="23.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                 <styleClass>
+                                    <String fx:value="nav2" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <AnchorPane fx:id="Setting_changeInFo_form" layoutX="94.0" layoutY="94.0" prefHeight="545.0" prefWidth="672.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Button layoutX="39.0" layoutY="14.0" mnemonicParsing="false" text="Inbox" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="9.0">
-                                             <graphic>
-                                                <FontAwesomeIcon glyphName="INBOX" size="1.5em" text="" />
-                                             </graphic>
+                                          <Label layoutX="232.0" layoutY="14.0" text="Change Information" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Berlin Sans FB" size="25.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3806042969226837" green="0.9342105388641357" blue="0.8696231245994568" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <TextField layoutX="77.0" layoutY="74.0" prefHeight="30.0" prefWidth="224.0" promptText="First Name" styleClass="textfield" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="106.0" />
+                                          <TextField layoutX="470.0" layoutY="74.0" prefHeight="30.0" prefWidth="224.0" promptText="Last Name" styleClass="textfield" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="106.0" />
+                                          <TextField layoutX="75.0" layoutY="150.0" prefHeight="30.0" prefWidth="224.0" promptText="Phone Number" styleClass="textfield" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="190.0" />
+                                          <ChoiceBox layoutX="75.0" layoutY="227.0" prefHeight="30.0" prefWidth="224.0" styleClass="textfield" AnchorPane.topAnchor="274.0" />
+                                          <ChoiceBox layoutX="75.0" layoutY="320.0" prefHeight="30.0" prefWidth="224.0" styleClass="textfield" AnchorPane.topAnchor="358.0" />
+                                          <ChoiceBox layoutX="373.0" layoutY="227.0" prefHeight="30.0" prefWidth="224.0" styleClass="textfield" AnchorPane.topAnchor="274.0" />
+                                          <ChoiceBox layoutX="373.0" layoutY="320.0" prefHeight="30.0" prefWidth="224.0" styleClass="textfield" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="358.0" />
+                                          <ChoiceBox layoutX="373.0" layoutY="150.0" prefHeight="30.0" prefWidth="224.0" styleClass="textfield" AnchorPane.topAnchor="190.0" />
+                                          <Button layoutX="299.0" layoutY="443.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="75.0" styleClass="signout" text="Save" textFill="WHITE">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font></Button>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane fx:id="Setting_changePass_form" layoutX="116.0" layoutY="73.0" prefHeight="545.0" prefWidth="672.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label layoutX="233.0" layoutY="28.0" text="Change Password">
+                                             <font>
+                                                <Font name="Berlin Sans FB" size="28.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3806042969226837" green="0.9342105388641357" blue="0.8696231245994568" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.04020467773079872" green="0.8684210777282715" blue="0.8270102143287659" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.04020467773079872" green="0.8684210777282715" blue="0.8270102143287659" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <TextField layoutX="262.0" layoutY="119.0" prefHeight="30.0" prefWidth="224.0" promptText="Old Password" styleClass="textfield" AnchorPane.leftAnchor="224.0" AnchorPane.topAnchor="120.0" />
+                                          <TextField layoutX="224.0" layoutY="204.0" prefHeight="30.0" prefWidth="224.0" promptText="New Password" styleClass="textfield" AnchorPane.leftAnchor="224.0" AnchorPane.topAnchor="200.0" />
+                                          <TextField layoutX="262.0" layoutY="305.0" prefHeight="30.0" prefWidth="224.0" promptText="New Password" styleClass="textfield" AnchorPane.leftAnchor="224.0" AnchorPane.topAnchor="280.0" />
+                                          <Button layoutX="286.0" layoutY="384.0" mnemonicParsing="false" prefWidth="100.0" styleClass="signout" text="Save" textFill="WHITE">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
-                                             <styleClass>
-                                                <String fx:value="nav-btn" />
-                                                <String fx:value="shadow" />
-                                             </styleClass>
                                           </Button>
                                        </children>
-                                       <styleClass>
-                                          <String fx:value="nav2" />
-                                          <String fx:value="shadow" />
-                                       </styleClass>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="154.0" layoutY="30.0" prefHeight="545.0" prefWidth="740.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                                       <styleClass>
-                                          <String fx:value="nav2" />
-                                          <String fx:value="shadow" />
-                                       </styleClass>
+                                    <AnchorPane fx:id="Setting_InFo_Form" prefHeight="545.0" prefWidth="672.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label layoutX="258.0" layoutY="26.0" text="Information">
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3806042969226837" green="0.9342105388641357" blue="0.8696231245994568" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.04020467773079872" green="0.8684210777282715" blue="0.8270102143287659" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.04020467773079872" green="0.8684210777282715" blue="0.8270102143287659" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                             <font>
+                                                <Font name="Tahoma" size="30.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="65.0" layoutY="90.0" text="First Name:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="414.0" layoutY="92.0" text="Last Name:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="65.0" layoutY="159.0" text="Phone Number:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="414.0" layoutY="161.0" text="Gender: ">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="66.0" layoutY="226.0" text="Student ID:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="75.0" layoutY="300.0" text="Address:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
                            </children>
                         </AnchorPane>
+                        <AnchorPane fx:id="Schedule_form" prefHeight="555.0" prefWidth="887.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                </center>

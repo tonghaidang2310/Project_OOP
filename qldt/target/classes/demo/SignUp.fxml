@@ -19,7 +19,7 @@
          <children>
             <AnchorPane layoutY="6.0" prefHeight="400.0" prefWidth="300.0" styleClass="right-form" stylesheets="@Design/LoginDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button fx:id="returnBtn" mnemonicParsing="false" onAction="#switchToLogin" prefHeight="24.0" prefWidth="48.0" styleClass="back" stylesheets="@../LoginDesign.css" textFill="WHITE" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="4.0">
+                  <Button fx:id="returnBtn" mnemonicParsing="false" onAction="#back" prefHeight="24.0" prefWidth="48.0" styleClass="back" stylesheets="@../LoginDesign.css" textFill="WHITE" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="4.0">
                      <graphic>
                         <FontAwesomeIcon fill="WHITE" glyphName="ROTATE_LEFT" size="1.5em" />
                      </graphic>
@@ -67,7 +67,7 @@
                   </Button>
                   <TextField fx:id="username" layoutX="50.0" layoutY="74.0" onAction="#signUp" prefHeight="25.0" promptText="Username" styleClass="textfield" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="75.0" />
                   <PasswordField fx:id="password" layoutX="50.0" layoutY="185.0" onAction="#signUp" prefHeight="25.0" prefWidth="250.0" promptText="Password" styleClass="textfield" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="125.0" />
-                  <PasswordField fx:id="repassword" layoutX="75.0" layoutY="241.0" onAction="#signUp" prefHeight="25.0" prefWidth="250.0" promptText="Password" styleClass="textfield" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="175.0" />
+                  <PasswordField fx:id="repassword" layoutX="75.0" layoutY="241.0" onAction="#signUp" prefHeight="25.0" prefWidth="250.0" promptText="Confirm Password" styleClass="textfield" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="175.0" />
                   <Button fx:id="signUpBtn" layoutX="116.0" layoutY="345.0" mnemonicParsing="false" onAction="#signUp" styleClass="login-btn" text="Sign Up" AnchorPane.topAnchor="325.0" />
                   <TextField fx:id="firstName" layoutX="50.0" layoutY="238.0" onAction="#signUp" prefHeight="25.0" prefWidth="95.0" promptText="First name" styleClass="textfield" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="225.0" />
                   <TextField fx:id="lastName" layoutX="153.0" layoutY="238.0" onAction="#signUp" prefHeight="25.0" prefWidth="95.0" promptText="Last name" styleClass="textfield" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="225.0" />
