@@ -2,7 +2,7 @@ package demo.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+// import java.sql.ResultSet;
 
 import demo.Data.DataBase;
 import demo.Entity.Student;
@@ -10,7 +10,7 @@ import demo.Entity.Student;
 public class StudentDAO {
     private Connection connect;
     private PreparedStatement prepare;
-    private ResultSet result;
+    // private ResultSet result;
 
     public void addStudentId(String StudentID, String firstName, String lastName, String gender){
         try{
