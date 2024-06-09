@@ -34,24 +34,4 @@ public class Person {
     public String getGender(){
         return Gender;
     }
-
-    public void setFirstName(String firstName){
-        this.FirstName = firstName;
-    }
-
-    public void setLastName(String lastName){
-        this.LastName = lastName;
-    }
-
-    public void setPhoneNumber(String phoneNumber){
-        this.PhoneNumber = phoneNumber;
-    }
-
-    public void setEmail(String email){
-        this.Email = email;
-    }
-
-    public void setGender(String gender){
-        this.Gender = gender;
-    }
 }

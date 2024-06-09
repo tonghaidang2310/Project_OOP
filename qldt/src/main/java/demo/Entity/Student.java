@@ -23,12 +23,4 @@ public class Student extends Person{
     public String getAddress(){
         return Address;
     }
-
-    public void setID(String ID){
-        this.ID = ID;
-    }
-
-    public void setAddress(String Address){
-        this.Address = Address;
-    }
 }
