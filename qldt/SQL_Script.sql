@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS Student (
 );
 
 -- Bảng Lecturers
-CREATE TABLE IF NOT EXISTS Lecturers (
-    LecturersID VARCHAR(50) PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS Lecturer (
+    LecturerID VARCHAR(50) PRIMARY KEY,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
     PhoneNumber VARCHAR(15),
@@ -25,23 +25,76 @@ CREATE TABLE IF NOT EXISTS Lecturers (
     Gender ENUM('Male', 'Female', 'Other') NOT NULL
 );
 
+INSERT INTO lecturer
+	(LecturerID, FirstName, LastName, PhoneNumber, Email, Gender)
+VALUES
+	("GV-001", "Trần Đăng", "Hoan", "0945823857", "trandanghoan@phenikaa-uni.edu.vn", "Male"),
+    ("GV-002", "Trịnh", "Thành", "0945823873", "trinhthanh@phenikaa-uni.edu.vn", "Male");
+
 -- Bảng Course
 CREATE TABLE IF NOT EXISTS Course (
     CourseID VARCHAR(50) PRIMARY KEY,
     NameCourse VARCHAR(100) NOT NULL,
-    LecturersID VARCHAR(50),
     TuitionFee DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (LecturersID) REFERENCES Lecturers(LecturersID)
+	Credits INT NOT NULL
 );
 
--- Tạo bảng StudentCourse để quản lý mối quan hệ nhiều-nhiều giữa Student và Course
+INSERT INTO project_oop.course (CourseID, NameCourse, TuitionFee, Credits)
+VALUES
+	("C-001", "Đại số tuyến tính", 2100000, 3),
+    ("C-002", "Giải tích", 2100000, 3),
+    ("C-003", "Vật lý 1", 2100000, 3),
+    ("C-004", "Ngôn ngữ lập trình C", 2450000, 3),
+    ("C-005", "Pháp luật đại cương", 1400000, 2),
+    ("C-006", "Toán rời rạc", 2100000, 3),
+    ("C-007", "Lập trình cho trí tuệ nhân tạo", 2450000, 3),
+    ("C-008", "Cấu trúc dữ liệu và giải thuật", 2450000, 3),
+    ("C-009", "Kiến trúc máy tính", 2450000, 3),
+    ("C-010", "Cơ sở dữ liệu", 2450000, 3),
+    ("C-011", "Mạng máy tính", 1400000, 2),
+    ("C-012", "Khai phá dữ liệu", 1400000, 2),
+    ("C-013", "Hệ điều hành", 1400000, 2),
+    ("C-014", "Nhập môn trí tuệ nhân tạo", 2450000, 3),
+    ("C-015", "Phương pháp số học cho học máy", 2100000, 3),
+    ("C-016", "Lập trình hướng đối tượng", 2450000, 3);
+
+-- Bảng ClassSection
+CREATE TABLE IF NOT EXISTS ClassSection (
+    ClassSectionID VARCHAR(50) PRIMARY KEY,
+    ClassSectionName VARCHAR(100) NOT NULL,
+    CourseID VARCHAR(50),
+    LecturerID VARCHAR(50),
+    Enrolled INT default 0,
+    FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
+    FOREIGN KEY (LecturerID) REFERENCES Lecturer(LecturerID)
+);
+
+INSERT INTO classsection (ClassSectionID, CourseID, LecturerID, ClassSectionName, Enrolled)
+VALUES
+	("CS-016.N01", "C-016", "GV-001", "Lập trình hướng đối tượng (N01)", 40),
+    ("CS-016.N01.TH01", "C-016", "GV-001", "Lập trình hướng đối tượng (N01.TH01)", 0),
+    ("CS-016.N01.TH02", "C-016", "GV-001", "Lập trình hướng đối tượng (N01.TH02)", 0),
+    ("CS-016.N02", "C-016", "GV-001", "Lập trình hướng đối tượng (N02)", 0),
+    ("CS-016.N02.TH01", "C-016", "GV-001", "Lập trình hướng đối tượng (N02.TH01)", 0),
+    ("CS-016.N02.TH02", "C-016", "GV-001", "Lập trình hướng đối tượng (N02.TH02)", 0);
+
+-- Bảng StudentCourse
 CREATE TABLE IF NOT EXISTS StudentCourse (
     StudentID VARCHAR(50),
-    CourseID VARCHAR(50),
-    RegistrationStatus ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
-    PRIMARY KEY (StudentID, CourseID),
+    ClassSectionID VARCHAR(50),
+    RegistrationStatus ENUM('Study', 'Study Again', 'Study to improve') DEFAULT 'Study',
+    PRIMARY KEY (StudentID, ClassSectionID),
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
-    FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+    FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID)
+);
+
+CREATE TABLE IF NOT EXISTS CoursesLearned(
+	StudentID VARCHAR(50),
+    ClassSectionID VARCHAR(50),
+    LearnedStatus ENUM('Pass', 'Fail') DEFAULT 'Pass',
+    PRIMARY KEY (StudentID, ClassSectionID),
+    FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
+    FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID)
 );
 
 -- Tạo bảng Account để lưu thông tin tài khoản
@@ -54,93 +107,51 @@ CREATE TABLE IF NOT EXISTS Account (
     LecturerID VARCHAR(50),
     CONSTRAINT fk_student FOREIGN KEY (StudentID) REFERENCES Student(StudentID)
         ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk_lecturer FOREIGN KEY (LecturerID) REFERENCES Lecturers(LecturersID)
+    CONSTRAINT fk_lecturer FOREIGN KEY (LecturerID) REFERENCES Lecturer(LecturerID)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- Tạo trigger để đảm bảo ràng buộc logic
-DELIMITER //
-CREATE TRIGGER before_account_insert
-BEFORE INSERT ON Account
-FOR EACH ROW
-BEGIN
-    IF NEW.UserType = 'Student' AND NEW.StudentID IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'StudentID must be non-null when UserType is Student';
-    END IF;
+-- Bảng Session để lưu thông tin phiên đăng nhập hiện tại
+CREATE TABLE IF NOT EXISTS Session (
+    AccountID INT primary key,
+	UserName VARCHAR(50) NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL,
+    UserType ENUM('Student', 'Lecturer') NOT NULL,
+    StudentID VARCHAR(50),
+    LecturerID VARCHAR(50)
+);
 
-    IF NEW.UserType = 'Lecturer' AND NEW.LecturerID IS NULL THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'LecturerID must be non-null when UserType is Lecturer';
-    END IF;
-    
-    IF NEW.UserType = 'Student' AND NEW.LecturerID IS NOT NULL THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'LecturerID must be null when UserType is Student';
-    END IF;
-
-    IF NEW.UserType = 'Lecturer' AND NEW.StudentID IS NOT NULL THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'StudentID must be null when UserType is Lecturer';
-    END IF;
-END;
-//
-DELIMITER ;
-
--- Tạo bảng Classroom để lưu thông tin về các phòng học
+-- Bảng Classroom để lưu thông tin về các phòng học
 CREATE TABLE IF NOT EXISTS Classroom (
     ClassroomID VARCHAR(50) PRIMARY KEY,
     RoomNumber VARCHAR(50) NOT NULL,
     Building VARCHAR(100) NOT NULL
 );
 
--- Tạo bảng Schedule để lưu thông tin thời khóa biểu
+-- Bảng Schedule
 CREATE TABLE IF NOT EXISTS Schedule (
     ScheduleID INT AUTO_INCREMENT PRIMARY KEY,
-    CourseID VARCHAR(50),
+    ClassSectionID VARCHAR(50),
     ClassroomID VARCHAR(50),
     StartTime TIME NOT NULL,
     EndTime TIME NOT NULL,
     DayOfWeek ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday') NOT NULL,
-    FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
+    FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID),
     FOREIGN KEY (ClassroomID) REFERENCES Classroom(ClassroomID)
 );
 
--- Bảng Enrollment để lưu trữ thông tin chi tiết về quá trình đăng ký
+-- Bảng Enrollment
 CREATE TABLE IF NOT EXISTS Enrollment (
     EnrollmentID INT AUTO_INCREMENT PRIMARY KEY,
     StudentID VARCHAR(50),
-    CourseID VARCHAR(50),
+    ClassSectionID VARCHAR(50),
     RegistrationDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     RegistrationStatus ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
-    FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
+    FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID)
 );
 
--- Trigger để đảm bảo chỉ có thể thay đổi trạng thái thành 'Approved' hoặc 'Rejected' từ trạng thái 'Pending'
-DELIMITER //
-CREATE TRIGGER before_enrollment_update
-BEFORE UPDATE ON Enrollment
-FOR EACH ROW
-BEGIN
-    IF NEW.RegistrationStatus NOT IN ('Pending', 'Approved', 'Rejected') THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Invalid registration status';
-    END IF;
-
-    IF OLD.RegistrationStatus = 'Pending' AND NEW.RegistrationStatus = 'Approved' THEN
-        SET NEW.RegistrationStatus = 'Approved';
-    ELSEIF OLD.RegistrationStatus = 'Pending' AND NEW.RegistrationStatus = 'Rejected' THEN
-        SET NEW.RegistrationStatus = 'Rejected';
-    ELSEIF OLD.RegistrationStatus != 'Pending' THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Cannot change registration status once it is approved or rejected';
-    END IF;
-END;
-//
-DELIMITER ;
-
--- Tạo bảng Payment để lưu trữ thông tin thanh toán học phí
+-- Bảng Payment
 CREATE TABLE IF NOT EXISTS Payment (
     PaymentID INT AUTO_INCREMENT PRIMARY KEY,
     StudentID VARCHAR(50),
@@ -151,29 +162,6 @@ CREATE TABLE IF NOT EXISTS Payment (
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
     FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
 );
-
-DELIMITER //
--- Trigger để đảm bảo chỉ có thể thay đổi trạng thái thanh toán thành 'Completed' hoặc 'Failed' từ trạng thái 'Pending'
-CREATE TRIGGER before_payment_update
-BEFORE UPDATE ON Payment
-FOR EACH ROW
-BEGIN
-    IF NEW.PaymentStatus NOT IN ('Pending', 'Completed', 'Failed') THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Invalid payment status';
-    END IF;
-
-    IF OLD.PaymentStatus = 'Pending' AND NEW.PaymentStatus = 'Completed' THEN
-        SET NEW.PaymentStatus = 'Completed';
-    ELSEIF OLD.PaymentStatus = 'Pending' AND NEW.PaymentStatus = 'Failed' THEN
-        SET NEW.PaymentStatus = 'Failed';
-    ELSEIF OLD.PaymentStatus != 'Pending' THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Cannot change payment status once it is completed or failed';
-    END IF;
-END;
-//
-DELIMITER ;
 
 -- Bảng GradeType
 CREATE TABLE IF NOT EXISTS GradeType (
@@ -186,39 +174,12 @@ CREATE TABLE IF NOT EXISTS GradeType (
 CREATE TABLE IF NOT EXISTS Grade (
     GradeID INT AUTO_INCREMENT PRIMARY KEY,
     StudentID VARCHAR(50),
-    CourseID VARCHAR(50),
-    LecturerID VARCHAR(50),
+    ClassSectionID VARCHAR(50),
     GradeTypeID INT,
     Grade DECIMAL(4, 2),
     GradeDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
-    FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
-    FOREIGN KEY (LecturerID) REFERENCES Lecturers(LecturersID),
+    FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID),
     FOREIGN KEY (GradeTypeID) REFERENCES GradeType(GradeTypeID),
-    CONSTRAINT uc_student_course_grade UNIQUE (StudentID, CourseID, GradeTypeID)
+    CONSTRAINT uc_student_course_grade UNIQUE (StudentID, ClassSectionID, GradeTypeID)
 );
-
-DELIMITER //
-CREATE TRIGGER before_grade_insert
-BEFORE INSERT ON Grade
-FOR EACH ROW
-BEGIN
-    DECLARE v_Count INT;
-    DECLARE v_UserType ENUM('Student', 'Lecturer');
-
-    -- Kiểm tra loại điểm tồn tại trong bảng GradeType
-    SELECT COUNT(*) INTO v_Count FROM GradeType WHERE GradeTypeID = NEW.GradeTypeID;
-    IF v_Count = 0 THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Grade type does not exist';
-    END IF;
-
-    -- Kiểm tra người dùng có phải là giảng viên hay không
-    SELECT UserType INTO v_UserType FROM Account WHERE AccountID = CURRENT_USER();
-    IF v_UserType != 'Lecturer' THEN
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Only lecturers are allowed to add grades';
-    END IF;
-END;
-//
-DELIMITER ;
