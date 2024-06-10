@@ -50,4 +50,53 @@ public class ClassSectionDAO {
             return null;
         }
     }
+
+    public ClassSection getClassSection(String classSectionID){
+        try{
+            connect = DataBase.connecDb();
+            prepare = connect.prepareStatement("SELECT * FROM classsection WHERE classSectionID = ?");
+            prepare.setString(1, classSectionID);
+            result = prepare.executeQuery();
+            if(result.next()){
+                return new ClassSection(result.getString("classSectionID"), result.getString("classSectionName"),
+                        result.getString("courseID"), result.getString("lecturerID"), result.getInt("enrolled"));
+            }
+            return null;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getClassSectionID(String classSectionName){
+        try{
+            connect = DataBase.connecDb();
+            prepare = connect.prepareStatement("SELECT classSectionID FROM classsection WHERE classSectionName = ?");
+            prepare.setString(1, classSectionName);
+            result = prepare.executeQuery();
+            if(result.next()){
+                return result.getString("classSectionID");
+            }
+            return null;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getCourseID(String classSectionID){
+        try{
+            connect = DataBase.connecDb();
+            prepare = connect.prepareStatement("SELECT courseID FROM classsection WHERE classSectionID = ?");
+            prepare.setString(1, classSectionID);
+            result = prepare.executeQuery();
+            if(result.next()){
+                return result.getString("courseID");
+            }
+            return null;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
