@@ -1,5 +1,8 @@
 package demo.Entity;
 
+/*
+ * Class này dùng để lưu trữ thông tin của một giảng viên
+ */
 public class Lecturer extends Person {
     private String ID;
 

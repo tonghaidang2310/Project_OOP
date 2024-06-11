@@ -1,5 +1,9 @@
 package demo.DAO;
 
+/*
+ * Class này dùng để thao tác với bảng classsection trong database
+ */
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +18,7 @@ public class ClassSectionDAO {
     private PreparedStatement prepare;
     private ResultSet result;
 
+    // Hàm lấy thông tin của tất cả các lớp học phần của một môn học
     public List<ClassSection> getClassSections(String courseID){
         List<ClassSection> classSectionList = new ArrayList<>();
         try{
@@ -33,6 +38,7 @@ public class ClassSectionDAO {
         }
     }
 
+    // Hàm lấy thông tin của tất cả các lớp học phần trong ds
     public List<ClassSection> getAllClassSections(){
         List<ClassSection> classSectionList = new ArrayList<>();
         try {
@@ -51,6 +57,7 @@ public class ClassSectionDAO {
         }
     }
 
+    // Hàm lấy thông tin của 1 lớp học phần
     public ClassSection getClassSection(String classSectionID){
         try{
             connect = DataBase.connecDb();
@@ -68,6 +75,7 @@ public class ClassSectionDAO {
         }
     }
 
+    // Hàm lấy ID của một lớp học phần
     public String getClassSectionID(String classSectionName){
         try{
             connect = DataBase.connecDb();
@@ -84,6 +92,7 @@ public class ClassSectionDAO {
         }
     }
 
+    // Hàm lấy ID của một môn học
     public String getCourseID(String classSectionID){
         try{
             connect = DataBase.connecDb();
@@ -97,6 +106,20 @@ public class ClassSectionDAO {
         }catch(Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    // Hàm cập nhật số lượng sinh viên đã đăng ký vào một lớp học phần
+    public void updateEnrolled(String classSectionID){
+        int enrolled = new StudentClassSectionDAO().getEnrolledStudents(classSectionID);
+        try{
+            connect = DataBase.connecDb();
+            prepare = connect.prepareStatement("UPDATE classsection SET enrolled = ? WHERE classSectionID = ?");
+            prepare.setInt(1, enrolled);
+            prepare.setString(2, classSectionID);
+            prepare.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 }

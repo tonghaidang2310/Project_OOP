@@ -1,5 +1,9 @@
 package demo.Account;
 
+/*
+ * Class này dùng để lưu trữ thông tin tài khoản của giảng viên
+ */
+
 import demo.DAO.AccountDAO;
 
 public class LecturerAccount extends Account{

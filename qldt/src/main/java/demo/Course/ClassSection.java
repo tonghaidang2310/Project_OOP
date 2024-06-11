@@ -1,5 +1,9 @@
 package demo.Course;
 
+/*
+ * Class lưu trữ thông tin của một lớp học phần
+ */
+
 public class ClassSection {
     private String classSectionID;
     private String classSectionName;

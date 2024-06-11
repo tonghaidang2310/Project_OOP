@@ -1,5 +1,9 @@
 package demo;
 
+/*
+ * Class này dùng để xử lý các sự kiện liên quan đến việc đăng nhập
+ */
+
 import java.io.IOException;
 
 import demo.Account.LecturerAccount;

@@ -1,5 +1,9 @@
 package demo;
 
+/*
+ * Class này là class chính của chương trình
+ */
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +25,7 @@ public class App extends Application {
     private double x = 0;
     private double y = 0;
 
+    // Hàm này dùng để khởi tạo giao diện
     @Override
     public void start(Stage s) throws IOException {
         stage = s;
@@ -48,10 +53,12 @@ public class App extends Application {
         stage.show();
     }
 
+    // Hàm main
     public static void main(String[] args) {
         launch();
     }
 
+    // Hàm này dùng để chuyển giao diện
     public static void setRoot(String string) {
         Parent root = loadFXML(string);
         if (root != null) {
@@ -60,6 +67,7 @@ public class App extends Application {
         }
     }
 
+    // Hàm này dùng để load file FXML
     public static Parent loadFXML(String fxml) {
         try {
             return FXMLLoader.load(App.class.getResource(fxml + ".fxml"));

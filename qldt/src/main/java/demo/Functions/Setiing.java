@@ -1,5 +1,5 @@
 package demo.Functions;
 
-public class Enrollment {
+public class Setiing {
     
 }

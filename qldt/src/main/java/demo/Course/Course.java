@@ -1,5 +1,9 @@
 package demo.Course;
 
+/*
+ * Class lưu trữ thông tin của một khóa học
+ */
+
 public class Course {
     private String courseID;
     private String nameCourse;

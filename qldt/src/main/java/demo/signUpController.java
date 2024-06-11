@@ -1,5 +1,9 @@
 package demo;
 
+/*
+ * Class này dùng để xử lý các sự kiện của giao diện đăng ký
+ */
+
 import demo.DAO.AccountDAO;
 import demo.Entity.Student;
 

@@ -1,11 +1,14 @@
 package demo.Course;
 
-public class CourseLearned {
+/*
+ * Class lưu trữ thông tin của một sinh viên trong một lớp học phần
+ */
+
+public class StudentClassSection {
     private String classSectionID;
     private String studentID;
-    private String learnedStatus;
 
-    public CourseLearned(String classSectionID, String studentID, String learnedStatus) {
+    public StudentClassSection(String classSectionID, String studentID) {
         this.classSectionID = classSectionID;
         this.studentID = studentID;
     }
@@ -16,9 +19,5 @@ public class CourseLearned {
 
     public String getStudentID() {
         return studentID;
-    }
-
-    public String getLearnedStatus() {
-        return learnedStatus;
     }
 }

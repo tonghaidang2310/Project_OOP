@@ -1,5 +1,9 @@
 package demo.Account;
 
+/*
+ * Class này dùng để lưu trữ thông tin tài khoản hiện tại đang đăng nhập
+ */
+
 public class CurrentAccount {
     private String AccountID;
     private String LecturerID;

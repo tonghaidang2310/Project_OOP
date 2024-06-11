@@ -4,9 +4,9 @@ use Project_OOP;
 
 drop database project_oop;
 
-# Học sinh
+-- Bảng Student
 CREATE TABLE IF NOT EXISTS Student (
-    StudentID varchar(50) PRIMARY KEY,
+    StudentID VARCHAR(50) PRIMARY KEY,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
     Address VARCHAR(100),
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS Course (
 	Credits INT NOT NULL
 );
 
-INSERT INTO project_oop.course (CourseID, NameCourse, TuitionFee, Credits)
+INSERT INTO course (CourseID, NameCourse, TuitionFee, Credits)
 VALUES
 	("C-001", "Đại số tuyến tính", 2100000, 3),
     ("C-002", "Giải tích", 2100000, 3),
@@ -64,36 +64,39 @@ CREATE TABLE IF NOT EXISTS ClassSection (
     ClassSectionName VARCHAR(100) NOT NULL,
     CourseID VARCHAR(50),
     LecturerID VARCHAR(50),
-    Enrolled INT default 0,
+    Enrolled INT,
     FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
     FOREIGN KEY (LecturerID) REFERENCES Lecturer(LecturerID)
 );
 
-INSERT INTO classsection (ClassSectionID, CourseID, LecturerID, ClassSectionName, Enrolled)
+INSERT INTO classsection (ClassSectionID, CourseID, LecturerID, ClassSectionName)
 VALUES
-	("CS-016.N01", "C-016", "GV-001", "Lập trình hướng đối tượng (N01)", 40),
-    ("CS-016.N01.TH01", "C-016", "GV-001", "Lập trình hướng đối tượng (N01.TH01)", 0),
-    ("CS-016.N01.TH02", "C-016", "GV-001", "Lập trình hướng đối tượng (N01.TH02)", 0),
-    ("CS-016.N02", "C-016", "GV-001", "Lập trình hướng đối tượng (N02)", 0),
-    ("CS-016.N02.TH01", "C-016", "GV-001", "Lập trình hướng đối tượng (N02.TH01)", 0),
-    ("CS-016.N02.TH02", "C-016", "GV-001", "Lập trình hướng đối tượng (N02.TH02)", 0);
+	("CS-016.N01", "C-016", "GV-001", "Lập trình hướng đối tượng (N01)"),
+    ("CS-016.N01.TH01", "C-016", "GV-001", "Lập trình hướng đối tượng (N01.TH01)"),
+    ("CS-016.N01.TH02", "C-016", "GV-001", "Lập trình hướng đối tượng (N01.TH02)"),
+    ("CS-016.N02", "C-016", "GV-001", "Lập trình hướng đối tượng (N02)"),
+    ("CS-016.N02.TH01", "C-016", "GV-001", "Lập trình hướng đối tượng (N02.TH01)"),
+    ("CS-016.N02.TH02", "C-016", "GV-001", "Lập trình hướng đối tượng (N02.TH02)");
 
--- Bảng StudentCourse
-CREATE TABLE IF NOT EXISTS StudentCourse (
+-- Bảng StudentClassSection để lưu danh sách sinh viên đăng ký vào mỗi lớp học phần
+CREATE TABLE IF NOT EXISTS StudentClassSection (
     StudentID VARCHAR(50),
     ClassSectionID VARCHAR(50),
-    RegistrationStatus ENUM('Study', 'Study Again', 'Study to improve') DEFAULT 'Study',
     PRIMARY KEY (StudentID, ClassSectionID),
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
     FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID)
 );
 
-CREATE TABLE IF NOT EXISTS CoursesLearned(
-	StudentID VARCHAR(50),
+-- Bảng StudentCourseProgress để lưu quá trình học của sinh viên
+CREATE TABLE IF NOT EXISTS StudentCourseProgress (
+    ProgressID INT AUTO_INCREMENT PRIMARY KEY,
+    StudentID VARCHAR(50),
+    CourseID VARCHAR(50),
     ClassSectionID VARCHAR(50),
-    LearnedStatus ENUM('Pass', 'Fail') DEFAULT 'Pass',
-    PRIMARY KEY (StudentID, ClassSectionID),
+    Status ENUM('InProgress', 'Completed', 'Failed') DEFAULT 'InProgress',
+    FinalGrade DECIMAL(4, 2),
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
+    FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
     FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID)
 );
 
@@ -138,17 +141,6 @@ CREATE TABLE IF NOT EXISTS Schedule (
     DayOfWeek ENUM('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday') NOT NULL,
     FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID),
     FOREIGN KEY (ClassroomID) REFERENCES Classroom(ClassroomID)
-);
-
--- Bảng Enrollment
-CREATE TABLE IF NOT EXISTS Enrollment (
-    EnrollmentID INT AUTO_INCREMENT PRIMARY KEY,
-    StudentID VARCHAR(50),
-    ClassSectionID VARCHAR(50),
-    RegistrationDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    RegistrationStatus ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
-    FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
-    FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID)
 );
 
 -- Bảng Payment

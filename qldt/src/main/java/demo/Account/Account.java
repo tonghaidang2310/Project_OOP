@@ -1,5 +1,9 @@
 package demo.Account;
 
+/*
+ * Class này dùng để lưu trữ thông tin tài khoản
+ */
+
 public class Account {
     private String id;
     private String username;

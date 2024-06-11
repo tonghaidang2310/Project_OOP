@@ -1,5 +1,9 @@
 package demo;
 
+/*
+ * Class này dùng để hiển thị giao diện của trang chính
+ */
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -133,6 +137,9 @@ public class dashBoardController implements Initializable{
     private VBox Register_SC_layout;
 
     @FXML
+    private HBox Register_SC_Title;
+
+    @FXML
     private Button Schedule_btn;
 
     @FXML
@@ -214,6 +221,8 @@ public class dashBoardController implements Initializable{
 
     public void actionClickNameCourse(MouseEvent e){
         registerShowInfoCourse();
+        Register_SC_layout.getChildren().clear();
+        Register_SC_layout.getChildren().add(Register_SC_Title);
         setCourseSectionData();
     }
 
@@ -241,7 +250,7 @@ public class dashBoardController implements Initializable{
         List<ClassSection> classSectionList = new ClassSectionDAO().getClassSections(courseID);
 
         for(ClassSection classSection : classSectionList){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("CourseSection.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CourseSectionRegister.fxml"));
             try {
                 HBox hbox = loader.load();
                 CourseSectionController controller = loader.getController();

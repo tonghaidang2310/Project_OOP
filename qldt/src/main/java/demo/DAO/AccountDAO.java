@@ -1,5 +1,9 @@
 package demo.DAO;
 
+/*
+ * Class này dùng để thao tác với cơ sở dữ liệu liên quan đến tài khoản
+ */
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +22,7 @@ public class AccountDAO {
     private PreparedStatement prepare;
     private ResultSet result;
 
+    // Hàm tạo ID sinh viên mới
     public String generateUniqueStudentID() {
         String newStudentID = "";
         try {
@@ -46,6 +51,7 @@ public class AccountDAO {
         return newStudentID;
     }
 
+    // Hàm tạo ID giảng viên mới
     public String generateUniqueLecturerID() {
         String newLecturerID = "";
         try {
@@ -74,6 +80,7 @@ public class AccountDAO {
         return newLecturerID;
     }
 
+    // Hàm đăng ký tài khoản
     public void signUpAccount(String username, String password, String typeUser, Student s){
         String id = typeUser.equals("Student") ? generateUniqueStudentID() : generateUniqueLecturerID();
         new StudentDAO().addStudentId(id, s);
@@ -92,6 +99,7 @@ public class AccountDAO {
         }
     }
 
+    // Hàm đăng nhập tài khoản
     public boolean loginAccount(String username, String password){
         boolean rs = false;
         try{
@@ -113,14 +121,17 @@ public class AccountDAO {
         return rs;
     }
 
+    // Hàm mã hóa mật khẩu
     private String hashPassword(String plainPassword){
         return BCrypt.hashpw(plainPassword, BCrypt.gensalt());
     }
 
+    // Hàm kiểm tra mật khẩu
     private boolean checkPassword(String plainPassword, String hashedPasssword){
         return BCrypt.checkpw(plainPassword, hashedPasssword);
     }
 
+    // Hàm lấy thông tin tài khoản
     public <T> Object getAccount(String username, String password){
         try{
             connect = DataBase.connecDb();
@@ -150,6 +161,7 @@ public class AccountDAO {
         }
     }
 
+    // Hàm kiểm tra loại tài khoản
     public String checkTypeAccount(String username){
         String type = "";
         try{
@@ -169,6 +181,7 @@ public class AccountDAO {
         return type;
     }
 
+    // Hàm thêm tài khoản sinh viên hiện tại đang đăng nhập
     public void addCurrentAccount(StudentAccount studentAccount){
         try{
             connect = DataBase.connecDb();
@@ -186,6 +199,7 @@ public class AccountDAO {
         }
     }
 
+    // Hàm thêm tài khoản giảng viên hiện tại đang đăng nhập
     public void addCurrentAccount(LecturerAccount lecturerAccount){
         try{
             connect = DataBase.connecDb();
@@ -203,6 +217,7 @@ public class AccountDAO {
         }
     }
 
+    // Hàm thêm tài khoản hiện tại đang đăng nhập
     public void addCurrentAccount(CurrentAccount currentAccount){
         String user = currentAccount.getUserName();
         String pass = currentAccount.getPassword();
@@ -213,6 +228,7 @@ public class AccountDAO {
         }
     }
 
+    // Hàm xóa tài khoản hiện tại đang đăng nhập
     public void removeCurrentAccount(String accountID){
         try{
             connect = DataBase.connecDb();
@@ -226,6 +242,7 @@ public class AccountDAO {
         }
     }
 
+    // Hàm lấy tài khoản hiện tại đang đăng nhập
     public CurrentAccount getCurrentAccount(){
         CurrentAccount currentAccount = null;
         try{
@@ -255,6 +272,7 @@ public class AccountDAO {
         }
     }
 
+    // Hàm lấy thông tin người dùng
     public <T> Object getInfoPerson(String ID, String userType){
         try{
             connect = DataBase.connecDb();

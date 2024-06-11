@@ -12,6 +12,7 @@ public class StudentDAO {
     private PreparedStatement prepare;
     // private ResultSet result;
 
+    // Hàm thêm một sinh viên vào bảng Student
     public void addStudentId(String StudentID, String firstName, String lastName, String gender){
         try{
             connect = DataBase.connecDb();
@@ -28,6 +29,7 @@ public class StudentDAO {
         }
     }
 
+    // Hàm thêm một sinh viên vào bảng Student
     public void addStudentId(String ID, Student student){
         try{
             connect = DataBase.connecDb();

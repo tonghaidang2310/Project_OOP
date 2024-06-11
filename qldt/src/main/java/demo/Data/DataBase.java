@@ -1,5 +1,9 @@
 package demo.Data;
 
+/*
+ * Class này dùng để kết nối với cơ sở dữ liệu
+ */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -8,6 +12,7 @@ public class DataBase {
     private static final String USER = "root";
     private static final String PASSWORD = "tranleanh3524@Z";
 
+    // Hàm kết nối với cơ sở dữ liệu
     public static Connection connecDb(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");

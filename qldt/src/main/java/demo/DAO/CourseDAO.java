@@ -1,5 +1,9 @@
 package demo.DAO;
 
+/*
+ * Class này dùng để lấy thông tin về các khóa học từ database
+ */
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +19,7 @@ public class CourseDAO {
     private PreparedStatement prepare;
     private ResultSet result;
 
+    // Hàm lấy thông tin của tất cả các khóa học
     public ObservableList<Course> getCourses() {
         ObservableList<Course> courseList = FXCollections.observableArrayList();
         try {
@@ -33,6 +38,7 @@ public class CourseDAO {
         }
     }
 
+    // Hàm lấy thông tin của một khóa học
     public <T> Object getCourseInfo(String courseName){
         ObservableList<Course> courseList = FXCollections.observableArrayList();
         try {
@@ -46,6 +52,23 @@ public class CourseDAO {
                 courseList.add(course);
             }
             return courseList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Hàm lấy ID của 1 khóa học
+    public String getCourseID(String courseName){
+        try {
+            connect = DataBase.connecDb();
+            prepare = connect.prepareStatement("SELECT courseID FROM course WHERE nameCourse = ?");
+            prepare.setString(1, courseName);
+            result = prepare.executeQuery();
+            if(result.next()){
+                return result.getString("courseID");
+            }
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

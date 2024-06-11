@@ -12,6 +12,7 @@ public class LecturerDAO {
     private PreparedStatement prepare;
     private ResultSet result;
 
+    // Hàm lấy tên của giảng viên
     public String getNameLecturer(String LecturerID){
         String firstName = "";
         String lastName = "";

@@ -289,7 +289,7 @@
                                        <content>
                                           <VBox fx:id="Register_SC_layout" prefHeight="333.0" prefWidth="875.0" spacing="10.0" styleClass="table-view">
                                              <children>
-                                                <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="875.0" styleClass="column-header-background">
+                                                <HBox fx:id="Register_SC_Title" alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="875.0" styleClass="column-header-background">
                                                    <children>
                                                       <Label prefHeight="21.0" prefWidth="373.0" styleClass="table-column" text="Course Section Name" textFill="WHITE">
                                                          <font>
