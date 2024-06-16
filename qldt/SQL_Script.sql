@@ -89,15 +89,13 @@ CREATE TABLE IF NOT EXISTS StudentClassSection (
 
 -- Bảng StudentCourseProgress để lưu quá trình học của sinh viên
 CREATE TABLE IF NOT EXISTS StudentCourseProgress (
-    ProgressID INT AUTO_INCREMENT PRIMARY KEY,
+    ProgressID INT PRIMARY KEY,
     StudentID VARCHAR(50),
     CourseID VARCHAR(50),
-    ClassSectionID VARCHAR(50),
     Status ENUM('InProgress', 'Completed', 'Failed') DEFAULT 'InProgress',
     FinalGrade DECIMAL(4, 2),
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
-    FOREIGN KEY (CourseID) REFERENCES Course(CourseID),
-    FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID)
+    FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
 );
 
 -- Tạo bảng Account để lưu thông tin tài khoản
@@ -155,23 +153,16 @@ CREATE TABLE IF NOT EXISTS Payment (
     FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
 );
 
--- Bảng GradeType
-CREATE TABLE IF NOT EXISTS GradeType (
-    GradeTypeID INT AUTO_INCREMENT PRIMARY KEY,
-    TypeName VARCHAR(50) NOT NULL,
-    Weight DECIMAL(5, 2) NOT NULL
-);
-
 -- Bảng Grade
 CREATE TABLE IF NOT EXISTS Grade (
     GradeID INT AUTO_INCREMENT PRIMARY KEY,
     StudentID VARCHAR(50),
     ClassSectionID VARCHAR(50),
-    GradeTypeID INT,
-    Grade DECIMAL(4, 2),
+    Grade_CC DECIMAL(4, 2),
+    Grade_Midterm DECIMAL(4, 2),
+    Grade_Endterm DECIMAL(4, 2),
     GradeDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
     FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID),
-    FOREIGN KEY (GradeTypeID) REFERENCES GradeType(GradeTypeID),
-    CONSTRAINT uc_student_course_grade UNIQUE (StudentID, ClassSectionID, GradeTypeID)
+    CONSTRAINT uc_student_course_grade UNIQUE (StudentID, ClassSectionID)
 );
