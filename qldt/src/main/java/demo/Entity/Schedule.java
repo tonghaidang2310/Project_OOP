@@ -1,130 +1,70 @@
 package demo.Entity;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public class Schedule {
-    int scheduleId;
-    String subjectCode, classCode, teacherCode, createAt, expiredAt;
-    List<String> teachingTime;
-    float fromTime, toTime;
+    private int scheduleID;
+    private int classSectionID;
+    private int classroomID;
+    private String startTime;
+    private String endTime;
+    private String dayOfWeek;
+
+    public Schedule(int scheduleID, int classSectionID, int classroomID, String startTime, String endTime, String dayOfWeek) {
+        this.scheduleID = scheduleID;
+        this.classSectionID = classSectionID;
+        this.classroomID = classroomID;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.dayOfWeek = dayOfWeek;
+    }
 
     public Schedule() {
-        teachingTime = new ArrayList<String>();
     }
 
-    public int getScheduledId(){
-        return scheduleId;
-    }
-    public void setScheduledId(int scheduleId) {
-        this.scheduleId = scheduleId;
+    public int getScheduleID() {
+        return scheduleID;
     }
 
-    public String getSubjectCode() {
-        return subjectCode;
-    }
-    public void setSubjectCode(String subjectCode) {
-        this.subjectCode = subjectCode;
+    public void setScheduleID(int scheduleID) {
+        this.scheduleID = scheduleID;
     }
 
-    public String getClassCode() {
-        return classCode;
-    }
-    public void setClassCode(String classCode) {
-        this.classCode = classCode;
+    public int getClassSectionID() {
+        return classSectionID;
     }
 
-    public String getTeacherCode() {
-        return teacherCode;
-    }
-    public void setTeacherCode(String teacherCode) {
-        this.teacherCode = teacherCode;
+    public void setClassSectionID(int classSectionID) {
+        this.classSectionID = classSectionID;
     }
 
-    public String getCreateAt() {
-        return createAt;
-    }
-    public void setCreateAt(String createAt) {
-        this.createAt = createAt;
+    public int getClassroomID() {
+        return classroomID;
     }
 
-    public String getExipredAt() {
-        return expiredAt;
-    }
-    public void setExipredAt(String exipredAt) {
-        this.expiredAt = exipredAt;
+    public void setClassroomID(int classroomID) {
+        this.classroomID = classroomID;
     }
 
-    public List<String> getTeachingTime() {
-        return teachingTime;
-    }
-    public void setTeachingTime(List<String> teachingTime) {
-        this.teachingTime = teachingTime;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public float getFromTime() {
-        return fromTime;
-    }
-    public void setFromTime(float fromTime) {
-        this.fromTime = fromTime;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public float getToTime() {
-        return toTime;
-    }
-    public void setToTime(float toTime) {
-        this.toTime = toTime;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void input() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Enter schedule id: ");
-        scheduleId = Integer.parseInt(scan.nextLine());
-
-        System.out.println("Enter class code: ");
-        classCode = scan.nextLine();
-
-        System.out.println("Enter subject code: ");
-        subjectCode = scan.nextLine();
-
-        System.out.println("Enter teacher code: ");
-        teacherCode = scan.nextLine();
-
-        System.out.println("Enter created at: ");
-        createAt = scan.nextLine();
-
-        System.out.println("Enter expired at: ");
-        expiredAt = scan.nextLine();
-
-        System.out.println("Enter teaching time: ");
-        while(true){
-            System.out.format("Time (%d)", teachingTime.size() + 1);
-            teachingTime.add(scan.nextLine());
-            System.out.println("Continue (Y/N): ");
-            String c = scan.nextLine();
-            if(c.equals("N")) 
-                break;
-        }
-
-        System.out.println("Enter start time: ");
-        fromTime = Float.parseFloat(scan.nextLine());
-
-        System.out.println("Enter end time: ");
-        toTime = Float.parseFloat(scan.nextLine());
-
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
-    @Override
-    public String toString(){
-        return "scheduleId=" + scheduleId + ", subjectCode=" + subjectCode + ", classCode=" + classCode + ", teacherCode=" + teacherCode + ", createAt=" + createAt + ", expiredAt=" + expiredAt + ", fromTime=" + fromTime + ", toTime=" + toTime;
+    public String getDayOfWeek() {
+        return dayOfWeek;
     }
 
-    public void display(){
-        System.out.println(toString());
-        System.out.println("Teaching time:");
-        for (String value : teachingTime){
-            System.out.println(value);
-        }
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 }
