@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import demo.Data.DataBase;
-import demo.Functions.Schedule;
+import demo.Entity.Schedule;
 public class ScheduleDAO {
 
     public List<Schedule> getAllSchedules() {
