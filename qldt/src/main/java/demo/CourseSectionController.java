@@ -5,6 +5,7 @@ package demo;
  */
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import demo.Course.ClassSection;
@@ -19,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 
 public class CourseSectionController implements Initializable{
@@ -50,25 +52,44 @@ public class CourseSectionController implements Initializable{
 
         String studentID = new AccountDAO().getCurrentAccount().getStudentID();
         String classSectionID = new ClassSectionDAO().getClassSectionID(CourseName.getText());
+        String courseID = new ClassSectionDAO().getCourseID(classSectionID);
         
         Alert alert;
 
-        if(new StudentClassSectionDAO().isEnrolled(classSectionID, studentID)){
-            alert = new Alert(AlertType.ERROR);
-            alert.setTitle("Error Message");
-            alert.setHeaderText(null);
-            alert.setContentText("The class section has been registered.");
-            alert.showAndWait();
-        }else{
-            new StudentClassSectionDAO().addStudentClassSection(classSectionID, studentID);
-            String courseID = new ClassSectionDAO().getCourseID(classSectionID);
-            new StudentCourseProgressDAO().addStudentCourseProgress(studentID, courseID, classSectionID);
-            new ClassSectionDAO().updateEnrolled(classSectionID);
-            alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Information Message");
-            alert.setHeaderText(null);
-            alert.setContentText("The class section has been registered successfully.");
-            alert.showAndWait();
+        alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you will sign up for this class?");
+        Optional<ButtonType> option = alert.showAndWait();
+
+        if(option.get().equals(ButtonType.OK)){
+            if(!(new StudentClassSectionDAO().checkRegistrationConditions(classSectionID, studentID)) && !(new StudentClassSectionDAO().isEnrolled(classSectionID, studentID))){
+                String registeredClassSectionID = new StudentClassSectionDAO().getStudentClassSectionID(classSectionID, studentID);
+                String classSectionName = new ClassSectionDAO().getClassSectionName(registeredClassSectionID);
+
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Registered for the class section \"" + classSectionName + "\" already.");
+                alert.showAndWait();
+            }else if(new StudentClassSectionDAO().isEnrolled(classSectionID, studentID)){
+                alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("The class section has been registered.");
+                alert.showAndWait();
+            }else{
+                new StudentClassSectionDAO().addStudentClassSection(classSectionID, studentID);
+                if(!(new StudentCourseProgressDAO().checkCourseProgress(studentID, courseID))){
+                    new StudentCourseProgressDAO().addStudentCourseProgress(studentID, courseID);
+                }
+                new ClassSectionDAO().updateEnrolled(classSectionID);
+                alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("The class section has been registered successfully.");
+                alert.showAndWait();
+            }
         }
     }
 
