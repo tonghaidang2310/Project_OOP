@@ -27,23 +27,56 @@ public class StudentCourseProgressDAO {
             if(result.next()){
                 return result.getInt(1) + 1;
             }
-            return 0;
+            return 1;
         }catch(Exception e){
             e.printStackTrace();
-            return 0;
+            return 1;
         }
     }
 
     // Hàm thêm một tiến trình học tập mới cho sinh viên
-    public void addStudentCourseProgress(String studentID, String courseID, String classSectionID){
+    public void addStudentCourseProgress(String studentID, String courseID){
+        int progressID = generateUniqueStudentCourseProgressID();
         try{
             connect = DataBase.connecDb();
-            String sql = "INSERT INTO StudentCourseProgress (ProgressID, studentID, courseID, classSectionID VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO StudentCourseProgress (ProgressID, studentID, courseID) VALUES (?, ?, ?)";
             prepare = connect.prepareStatement(sql);
-            prepare.setInt(1, generateUniqueStudentCourseProgressID());
+            prepare.setInt(1, progressID);
             prepare.setString(2, studentID);
             prepare.setString(3, courseID);
-            prepare.setString(4, classSectionID);
+
+            prepare.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public int getProgressID(String studentID, String courseID){
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT ProgressID FROM StudentCourseProgress WHERE studentID = ? AND courseID = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, studentID);
+            prepare.setString(2, courseID);
+
+            result = prepare.executeQuery();
+            if(result.next()){
+                return result.getInt("ProgressID");
+            }
+            return -1;
+        }catch(Exception e){
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public void removeStudentCourseProgress(String studentID, String courseID){
+        int id = getProgressID(studentID, courseID);
+        try{
+            connect = DataBase.connecDb();
+            String sql = "DELETE FROM StudentCourseProgress WHERE ProgressID = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setInt(1, id);
 
             prepare.executeUpdate();
         }catch(Exception e){
@@ -52,20 +85,35 @@ public class StudentCourseProgressDAO {
     }
 
     // Hàm cập nhật trạng thái học tập của sinh viên
-    public void updateStatus(String studentID, String courseID, String classSectionID, double grade){
+    public void updateStatus(String studentID, String courseID, double grade){
         String status = (grade > 4.0) ? "Completed" : "Failed";
         try{
             connect = DataBase.connecDb();
-            String sql = "UPDATE StudentCourseProgress SET status = ? WHERE studentID = ? AND courseID = ? AND classSectionID = ?";
+            String sql = "UPDATE StudentCourseProgress SET status = ? WHERE studentID = ? AND courseID = ?";
             prepare = connect.prepareStatement(sql);
             prepare.setString(1, status);
             prepare.setString(2, studentID);
             prepare.setString(3, courseID);
-            prepare.setString(4, classSectionID);
 
             prepare.executeUpdate();
         }catch(Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public boolean checkCourseProgress(String studentID, String courseID){
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT * FROM StudentCourseProgress WHERE studentID = ? AND courseID = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, studentID);
+            prepare.setString(2, courseID);
+
+            result = prepare.executeQuery();
+            return result.next();
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
         }
     }
 

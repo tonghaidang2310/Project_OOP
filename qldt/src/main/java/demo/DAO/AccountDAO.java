@@ -183,6 +183,10 @@ public class AccountDAO {
 
     // Hàm thêm tài khoản sinh viên hiện tại đang đăng nhập
     public void addCurrentAccount(StudentAccount studentAccount){
+        CurrentAccount currentAccount = getCurrentAccount();
+        if(currentAccount != null){
+            removeCurrentAccount(currentAccount.getAccountID());
+        }
         try{
             connect = DataBase.connecDb();
             String sql = "INSERT INTO session (AccountID, Username, Password, UserType, StudentID) VALUES (?, ?, ?, ?, ?)";
@@ -201,6 +205,10 @@ public class AccountDAO {
 
     // Hàm thêm tài khoản giảng viên hiện tại đang đăng nhập
     public void addCurrentAccount(LecturerAccount lecturerAccount){
+        CurrentAccount currentAccount = getCurrentAccount();
+        if(currentAccount != null){
+            removeCurrentAccount(currentAccount.getAccountID());
+        }
         try{
             connect = DataBase.connecDb();
             String sql = "INSERT INTO session (AccountID, Username, Password, UserType, LecturerID) VALUES (?, ?, ?, ?, ?)";
@@ -219,6 +227,10 @@ public class AccountDAO {
 
     // Hàm thêm tài khoản hiện tại đang đăng nhập
     public void addCurrentAccount(CurrentAccount currentAccount){
+        CurrentAccount ca = getCurrentAccount();
+        if(ca != null){
+            removeCurrentAccount(ca.getAccountID());
+        }
         String user = currentAccount.getUserName();
         String pass = currentAccount.getPassword();
         if(getAccount(user, pass) instanceof StudentAccount){
@@ -310,5 +322,24 @@ public class AccountDAO {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public boolean checkUsername(String username){
+        boolean rs = false;
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT * FROM account WHERE username = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, username);
+
+            result = prepare.executeQuery();
+
+            if(result.next()){
+                rs = true;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return rs;
     }
 }

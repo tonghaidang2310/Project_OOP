@@ -2,7 +2,9 @@ package demo.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-// import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.util.List;
 
 import demo.Data.DataBase;
 import demo.Entity.Student;
@@ -10,7 +12,7 @@ import demo.Entity.Student;
 public class StudentDAO {
     private Connection connect;
     private PreparedStatement prepare;
-    // private ResultSet result;
+    private ResultSet result;
 
     // Hàm thêm một sinh viên vào bảng Student
     public void addStudentId(String StudentID, String firstName, String lastName, String gender){
@@ -47,5 +49,26 @@ public class StudentDAO {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public List<Student> getStudentsByClassSectionId(String classSectionId) {
+        List<String> studentID = new ClassSectionDAO().getStudentIdByClassSectionId(classSectionId);
+        List<Student> students = new ArrayList<>();
+        try{
+            connect = DataBase.connecDb();
+            for (String id : studentID) {
+                prepare = connect.prepareStatement("SELECT * FROM Student WHERE StudentID = ?");
+                prepare.setString(1, id);
+                result = prepare.executeQuery();
+                while (result.next()) {
+                    Student student = new Student(result.getString("firstName"), result.getString("lastName"), result.getString("PhoneNumber"),
+                            result.getString("Email"), result.getString("Gender"), result.getString("id"), result.getString("Address"));
+                    students.add(student);
+                }
+            }    
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return students;
     }
 }

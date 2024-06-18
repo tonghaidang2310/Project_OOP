@@ -28,7 +28,7 @@ public class CurrentAccount {
         this.Password = lecturerAccount.getPassword();
     }
 
-    public String getAcountID(){ return this.AccountID;}
+    public String getAccountID(){ return this.AccountID;}
 
     public String getLecturerID(){ return this.LecturerID;}
 
