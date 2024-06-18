@@ -38,6 +38,22 @@ public class ClassSectionDAO {
         }
     }
 
+    public String getClassSectionName(String classSectionID){
+        try{
+            connect = DataBase.connecDb();
+            prepare = connect.prepareStatement("SELECT classSectionName FROM classsection WHERE classSectionID = ?");
+            prepare.setString(1, classSectionID);
+            result = prepare.executeQuery();
+            if(result.next()){
+                return result.getString("classSectionName");
+            }
+            return null;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     // Hàm lấy thông tin của tất cả các lớp học phần trong ds
     public List<ClassSection> getAllClassSections(){
         List<ClassSection> classSectionList = new ArrayList<>();
@@ -120,6 +136,42 @@ public class ClassSectionDAO {
             prepare.executeUpdate();
         }catch(Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public List<String> getStudentIdByClassSectionId(String classSectionId) {
+        List<String> studentIds = new ArrayList<>();
+        try {
+            connect = DataBase.connecDb();
+            prepare = connect.prepareStatement("SELECT studentID FROM classsection WHERE classSectionID = ?");
+            prepare.setString(1, classSectionId);
+            result = prepare.executeQuery();
+            while (result.next()) {
+                studentIds.add(result.getString("studentID"));
+            }
+            return studentIds;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<ClassSection> getClassSectionsByStudentId(String studentId) {
+        List<ClassSection> classSections = new ArrayList<>();
+        try {
+            connect = DataBase.connecDb();
+            prepare = connect.prepareStatement("SELECT * FROM classsection WHERE studentID = ?");
+            prepare.setString(1, studentId);
+            result = prepare.executeQuery();
+            while (result.next()) {
+                ClassSection classSection = new ClassSection(result.getString("classSectionID"), result.getString("classSectionName"),
+                        result.getString("courseID"), result.getString("lecturerID"), result.getInt("enrolled"));
+                classSections.add(classSection);
+            }
+            return classSections;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

@@ -10,8 +10,12 @@ import java.sql.DriverManager;
 public class DataBase {
     private static final String URL = "jdbc:mysql://localhost:3306/Project_OOP";
     private static final String USER = "root";
+<<<<<<< HEAD
     // private static final String PASSWORD = "tranleanh3524@Z";
     private static final String PASSWORD = "Lluong2004";
+=======
+    private static final String PASSWORD = "tranleanh3524@Z"; // Password của Lê Anh
+>>>>>>> 455ca857a5af1d213b0a3e0250a501526ca03e87
 
     // Hàm kết nối với cơ sở dữ liệu
     public static Connection connecDb(){

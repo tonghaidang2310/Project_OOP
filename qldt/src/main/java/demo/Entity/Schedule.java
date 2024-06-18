@@ -1,4 +1,4 @@
-package demo.Functions;
+package demo.Entity;
 
 import java.util.List;
 import java.util.ArrayList;

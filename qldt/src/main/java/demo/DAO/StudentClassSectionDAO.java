@@ -120,4 +120,98 @@ public class StudentClassSectionDAO {
             return 0;
         }
     }
+
+    public boolean checkRegistrationConditions(String classSectionID, String studentID){
+        String[] parts = classSectionID.split("\\.");
+
+        if(parts.length == 2){
+            try{
+                connect = DataBase.connecDb();
+                String sql = "SELECT * FROM StudentClassSection WHERE studentID = ? AND classSectionID LIKE ? AND classSectionID NOT LIKE ?";
+                prepare = connect.prepareStatement(sql);
+                prepare.setString(1, studentID);
+                prepare.setString(2, parts[0] + ".N__");
+                prepare.setString(3, parts[0] + ".N__." + ".%");
+
+                result = prepare.executeQuery();
+                return !result.next();
+            }catch(Exception e){
+                e.printStackTrace();
+                return false;
+            }
+        }else if(parts.length == 3){
+            try{
+                connect = DataBase.connecDb();
+                String sql = "SELECT * FROM StudentClassSection WHERE studentID = ? AND classSectionID LIKE ?";
+                prepare = connect.prepareStatement(sql);
+                prepare.setString(1, studentID);
+                prepare.setString(2, parts[0] + "." + parts[1] + ".%");
+
+                result = prepare.executeQuery();
+                return !result.next();
+            }catch(Exception e){
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public String getStudentClassSectionID(String classSectionID, String studentID){
+        String[] parts = classSectionID.split("\\.");
+
+        if(parts.length == 2){
+            try{
+                connect = DataBase.connecDb();
+                String sql = "SELECT * FROM StudentClassSection WHERE studentID = ? AND classSectionID LIKE ? AND classSectionID NOT LIKE ?";
+                prepare = connect.prepareStatement(sql);
+                prepare.setString(1, studentID);
+                prepare.setString(2, parts[0] + ".N__");
+                prepare.setString(3, parts[0] + ".N__." + ".%");
+
+                result = prepare.executeQuery();
+                if(result.next()){
+                    return result.getString("classSectionID");
+                }
+                return null;
+            }catch(Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }else if(parts.length == 3){
+            try{
+                connect = DataBase.connecDb();
+                String sql = "SELECT * FROM StudentClassSection WHERE studentID = ? AND classSectionID LIKE ?";
+                prepare = connect.prepareStatement(sql);
+                prepare.setString(1, studentID);
+                prepare.setString(2, parts[0] + "." + parts[1] + ".%");
+
+                result = prepare.executeQuery();
+                if(result.next()){
+                    return result.getString("classSectionID");
+                }
+                return null;
+            }catch(Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public int getNumberOfClassSectionByCourseID(String courseID){
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT COUNT(*) FROM StudentClassSection WHERE classSectionID LIKE ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, courseID + ".%");
+
+            result = prepare.executeQuery();
+            result.next();
+            return result.getInt(1);
+        }catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
 }

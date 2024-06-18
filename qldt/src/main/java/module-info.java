@@ -7,6 +7,7 @@ module demo {
 
     requires jbcrypt;
     requires java.base;
+    requires javax.servlet.api;
 
     opens demo to javafx.fxml;
     opens demo.Course to javafx.base;

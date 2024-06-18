@@ -27,4 +27,8 @@ public class Student extends Person{
     public String getAddress(){
         return Address;
     }
+
+    public String getName(){
+        return super.getFirstName() + " " + super.getLastName();
+    }
 }

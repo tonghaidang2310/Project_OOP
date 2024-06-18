@@ -76,6 +76,12 @@ public class signUpController {
             alert.setHeaderText(null);
             alert.setContentText("Please fill all the fields");
             alert.showAndWait();
+        }else if(!checkUsername(user)){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Username already exists");
+            alert.showAndWait();
         }else if(!pass.equals(repass)){
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Message");
@@ -100,6 +106,11 @@ public class signUpController {
             switchToLogin();
         }
 
+    }
+
+    public boolean checkUsername(String username){
+        AccountDAO accountDAO = new AccountDAO();
+        return !accountDAO.checkUsername(username);
     }
 
     @FXML

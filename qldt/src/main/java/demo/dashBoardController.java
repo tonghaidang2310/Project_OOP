@@ -17,6 +17,7 @@ import demo.Course.Course;
 import demo.DAO.AccountDAO;
 import demo.DAO.ClassSectionDAO;
 import demo.DAO.CourseDAO;
+import demo.DAO.StudentClassSectionDAO;
 import demo.Entity.Lecturer;
 import demo.Entity.Student;
 
@@ -56,10 +57,13 @@ public class dashBoardController implements Initializable{
     private Button ChangePass_btn;
 
     @FXML
+    private ComboBox<String> Course_choose_status;
+
+    @FXML
     private Button Course_btn;
 
     @FXML
-    private TableColumn<?, ?> Course_col_Class;
+    private TableColumn<?, ?> Course_col_Status;
 
     @FXML
     private TableColumn<?, ?> Course_col_ID;
@@ -74,7 +78,7 @@ public class dashBoardController implements Initializable{
     private TableColumn<?, ?> Course_col_schoolYear;
 
     @FXML
-    private TableColumn<?, ?> Course_col_studentNumber;
+    private TableColumn<?, ?> Course_col_grade;
 
     @FXML
     private AnchorPane Course_form;
@@ -195,6 +199,19 @@ public class dashBoardController implements Initializable{
 
 
     // Course
+    private String[] courseStatus = {"All", "Completed", "Fail", "In progress"};
+
+    public void Course_status(){
+        List<String> listStatus = new ArrayList<>();
+
+        for(String s : courseStatus){
+            listStatus.add(s);
+        }
+
+        ObservableList<String> listData = FXCollections.observableArrayList(listStatus);
+
+        Course_choose_status.setItems(listData);
+    }
 
     // Register
     private String[] status = {"All", "Registered", "Not registered"};
@@ -212,8 +229,9 @@ public class dashBoardController implements Initializable{
     }
 
     private ObservableList<Course> listData = new CourseDAO().getCourses();
-
+    
     public void registerShowNameCourse(){
+
         Register_CourseName_col.setCellValueFactory(new PropertyValueFactory<>("nameCourse"));
 
         Register_CourseName_table.setItems(listData);
@@ -223,7 +241,11 @@ public class dashBoardController implements Initializable{
         registerShowInfoCourse();
         Register_SC_layout.getChildren().clear();
         Register_SC_layout.getChildren().add(Register_SC_Title);
-        setCourseSectionData();
+        String status = Register_status.getSelectionModel().getSelectedItem();
+        if(status == null){    setCourseSectionData(); }
+        else if(status.equals("All")){    setCourseSectionData();}
+        else if(status.equals("Not registered")){    registerNotRegisteredCourseSection();}
+        else if(status.equals("Registered")){    registerRegisteredCourseSection();}
     }
 
     public void registerShowInfoCourse(){
@@ -262,6 +284,46 @@ public class dashBoardController implements Initializable{
         }
     }
 
+    public void registerNotRegisteredCourseSection(){
+        Course course = Register_CourseName_table.getSelectionModel().getSelectedItem();
+        String courseID = course.getCourseID();
+        List<ClassSection> classSectionList = new ClassSectionDAO().getClassSections(courseID);
+
+        for(ClassSection classSection : classSectionList){
+            if(!(new StudentClassSectionDAO().isEnrolled(classSection.getClassSectionID(), currentAccount.getStudentID()))){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("CourseSectionRegister.fxml"));
+                try {
+                    HBox hbox = loader.load();
+                    CourseSectionController controller = loader.getController();
+                    controller.setData(classSection);
+                    Register_SC_layout.getChildren().add(hbox);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void registerRegisteredCourseSection(){
+        Course course = Register_CourseName_table.getSelectionModel().getSelectedItem();
+        String courseID = course.getCourseID();
+        List<ClassSection> classSectionList = new ClassSectionDAO().getClassSections(courseID);
+
+        for(ClassSection classSection : classSectionList){
+            if(new StudentClassSectionDAO().isEnrolled(classSection.getClassSectionID(), currentAccount.getStudentID())){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("CourseSectionUnRegister.fxml"));
+                try {
+                    HBox hbox = loader.load();
+                    CourseSectionUnRegisterController controller = loader.getController();
+                    controller.setData(classSection);
+                    Register_SC_layout.getChildren().add(hbox);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public void registerSearchCourse(){
         Register_search.textProperty().addListener((observable, oldValue, newValue) -> {
             FilteredList<Course> filteredData = new FilteredList<>(listData, p -> true);
@@ -291,6 +353,7 @@ public class dashBoardController implements Initializable{
 
     // Switch Form
     public void switchForm(ActionEvent e){
+        setStyleButton(DashBoard_btn);
         if(e.getSource() == DashBoard_btn){
             Course_form.setVisible(false);
             Register_form.setVisible(false);
@@ -335,6 +398,8 @@ public class dashBoardController implements Initializable{
             Inbox_form.setVisible(false);
             dashBoard_form.setVisible(false);
             setStyleButton(Setting_btn);
+
+            switchSettingForm(e);
         }else if(e.getSource() == InboxForm_btn){
             Course_form.setVisible(false);
             Register_form.setVisible(false);
@@ -343,6 +408,8 @@ public class dashBoardController implements Initializable{
             Inbox_form.setVisible(true);
             dashBoard_form.setVisible(false);
             setStyleButton(InboxForm_btn);
+
+            switchInboxForm(e);
         }
     }
 
@@ -455,7 +522,7 @@ public class dashBoardController implements Initializable{
 
     @FXML
     private void close(){
-        new AccountDAO().removeCurrentAccount(currentAccount.getAcountID());
+        new AccountDAO().removeCurrentAccount(currentAccount.getAccountID());
         currentAccount = null;
         System.exit(0);
     }
@@ -487,7 +554,7 @@ public class dashBoardController implements Initializable{
 
             if (option.get().equals(ButtonType.OK)) {
                 logout.getScene().getWindow().hide();
-                new AccountDAO().removeCurrentAccount(currentAccount.getAcountID());
+                new AccountDAO().removeCurrentAccount(currentAccount.getAccountID());
                 currentAccount = null;
                 switchToLogin();
             }
@@ -499,8 +566,9 @@ public class dashBoardController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         displayUserName();
-        Register_status();
         registerShowNameCourse();
         
+        Course_status();
+        Register_status();
     }
 }
