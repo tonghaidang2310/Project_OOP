@@ -8,12 +8,13 @@ import demo.DAO.StudentDAO;
 import demo.DAO.ClassSectionDAO;
 import demo.Entity.Student;
 import demo.Course.ClassSection;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+// import javafx.scene.control.Alert;
+// import javafx.scene.control.Alert.AlertType;
+// import javafx.scene.control.Button;
+// import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 
@@ -38,7 +39,7 @@ public class StudentController implements Initializable{
         List<Student> students = studentDAO.getStudentsByClassSectionId(classSectionId);
         studentListView.getItems().clear();
         for (Student student : students) {
-            studentListView.getItems().add(student.getStudentID() + " - " + student.getStudentName());
+            studentListView.getItems().add(student.getID() + " - " + student.getName());
         }
     }
 

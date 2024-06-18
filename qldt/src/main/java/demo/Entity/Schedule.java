@@ -1,4 +1,4 @@
-package demo.Functions;
+package demo.Entity;
 
 public class Schedule {
     

@@ -5,18 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import demo.Entity.Payment;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import demo.Entity.Payment;
+import demo.Data.DataBase;
 
 public class PaymentDAO {
 
     public void addPayment(Payment payment) {
-        try (Connection conn = Database.getConnection()) {
+        try (Connection conn = DataBase.connecDb()) {
             String sql = "INSERT INTO payments (paymentId, studentId, amount, date) VALUES (?, ?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, payment.getPaymentId());
@@ -31,7 +27,7 @@ public class PaymentDAO {
 
     public List<Payment> getPaymentsByStudentId(String studentId) {
         List<Payment> payments = new ArrayList<>();
-        try (Connection conn = Database.getConnection()) {
+        try (Connection conn = DataBase.connecDb()) {
             String sql = "SELECT * FROM payments WHERE studentId = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, studentId);
