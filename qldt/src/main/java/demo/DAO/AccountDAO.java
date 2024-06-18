@@ -127,7 +127,7 @@ public class AccountDAO {
     }
 
     // Hàm kiểm tra mật khẩu
-    private boolean checkPassword(String plainPassword, String hashedPasssword){
+    public boolean checkPassword(String plainPassword, String hashedPasssword){
         return BCrypt.checkpw(plainPassword, hashedPasssword);
     }
 
@@ -341,5 +341,38 @@ public class AccountDAO {
             e.printStackTrace();
         }
         return rs;
+    }
+
+    public String getPassword(String username){
+        String pass = "";
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT password FROM account WHERE username = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, username);
+
+            result = prepare.executeQuery();
+
+            if(result.next()){
+                pass = result.getString("password");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return pass;
+    }
+
+    public void changePassword(String accountID, String password){
+        try{
+            connect = DataBase.connecDb();
+            String sql = "UPDATE account SET password = ? WHERE AccountID = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, hashPassword(password));
+            prepare.setString(2, accountID);
+
+            prepare.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

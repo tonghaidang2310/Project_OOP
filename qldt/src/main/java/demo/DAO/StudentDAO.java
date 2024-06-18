@@ -51,6 +51,25 @@ public class StudentDAO {
         }
     }
 
+    public void updateStudentInfo(String ID, Student student){
+        try{
+            connect = DataBase.connecDb();
+            String sql = "UPDATE Student SET firstName = ?, lastName = ?, address = ?, PhoneNumber = ?, Email = ?, gender = ? WHERE StudentID = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, student.getFirstName());
+            prepare.setString(2, student.getLastName());
+            prepare.setString(3, student.getAddress());
+            prepare.setString(4, student.getPhoneNumber());
+            prepare.setString(5, student.getEmail());
+            prepare.setString(6, student.getGender());
+            prepare.setString(7, ID);
+
+            prepare.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public List<Student> getStudentsByClassSectionId(String classSectionId) {
         List<String> studentID = new ClassSectionDAO().getStudentIdByClassSectionId(classSectionId);
         List<Student> students = new ArrayList<>();

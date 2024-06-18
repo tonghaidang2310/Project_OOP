@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS StudentCourseProgress (
     CourseID VARCHAR(50),
     Status ENUM('InProgress', 'Completed', 'Failed') DEFAULT 'InProgress',
     FinalGrade DECIMAL(4, 2),
+    times int default 1,
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
     FOREIGN KEY (CourseID) REFERENCES Course(CourseID)
 );
@@ -165,4 +166,25 @@ CREATE TABLE IF NOT EXISTS Grade (
     FOREIGN KEY (StudentID) REFERENCES Student(StudentID),
     FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID),
     CONSTRAINT uc_student_course_grade UNIQUE (StudentID, ClassSectionID)
+);
+
+-- Bảng Email để lưu trữ thông tin email
+CREATE TABLE IF NOT EXISTS Email (
+    EmailID INT AUTO_INCREMENT PRIMARY KEY,
+    SenderID INT,
+    ReceiverID INT,
+    Tiltle VARCHAR(255) NOT NULL,
+    Body TEXT NOT NULL,
+    FOREIGN KEY (SenderID) REFERENCES Account(AccountID),
+    FOREIGN KEY (ReceiverID) REFERENCES Account(AccountID)
+);
+
+-- Bảng EmailStatus để lưu trữ trạng thái của email (đọc, chưa đọc)
+CREATE TABLE IF NOT EXISTS EmailStatus (
+    EmailID INT,
+    AccountID INT,
+    Status ENUM('Read', 'Unread') DEFAULT 'Unread',
+    PRIMARY KEY (EmailID, AccountID),
+    FOREIGN KEY (EmailID) REFERENCES Email(EmailID) ON DELETE CASCADE,
+    FOREIGN KEY (AccountID) REFERENCES Account(AccountID) ON DELETE CASCADE
 );

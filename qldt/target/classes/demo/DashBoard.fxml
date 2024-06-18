@@ -8,12 +8,14 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -145,7 +147,7 @@
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
                         <Separator layoutX="-1.0" orientation="VERTICAL" prefHeight="550.0" prefWidth="10.0" AnchorPane.leftAnchor="-3.0" />
-                        <AnchorPane fx:id="dashBoard_form" layoutX="158.0" layoutY="104.0" prefHeight="555.0" prefWidth="887.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="dashBoard_form" layoutX="158.0" layoutY="104.0" prefHeight="555.0" prefWidth="887.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="29.0" layoutY="50.0" prefHeight="155.0" prefWidth="877.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                  <styleClass>
@@ -269,7 +271,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="Inbox_form" prefHeight="555.0" prefWidth="887.0" stylesheets="@Design/DashBoardDesign.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="Inbox_form" prefHeight="555.0" prefWidth="887.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutY="14.0" prefHeight="545.0" prefWidth="129.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                                  <children>
@@ -297,6 +299,18 @@
                                           <FontAwesomeIcon glyphName="SEND" size="1.5em" text="" />
                                        </graphic>
                                     </Button>
+                                    <Button fx:id="Write_btn" layoutX="9.0" layoutY="106.0" mnemonicParsing="false" onAction="#switchInboxForm" prefHeight="33.0" prefWidth="109.0" text="Write" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <styleClass>
+                                          <String fx:value="nav-btn" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                       <graphic>
+                                          <FontAwesomeIcon glyphName="PENCIL" size="1.5em" />
+                                       </graphic>
+                                    </Button>
                                  </children>
                                  <styleClass>
                                     <String fx:value="nav2" />
@@ -309,8 +323,255 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <AnchorPane fx:id="Inbox_InboxForm" prefHeight="545.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                    <AnchorPane fx:id="Inbox_SentForm" prefHeight="545.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <AnchorPane fx:id="Inbox_InboxForm" prefHeight="545.0" prefWidth="740.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <TextField layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0" promptText="Search" styleClass="search" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="9.0" />
+                                          <FontAwesomeIcon glyphName="SEARCH" layoutX="14.0" layoutY="31.0" size="1.5em" text="" wrappingWidth="16.714284896850586" />
+                                          <ScrollPane layoutX="9.0" layoutY="58.0" prefHeight="477.0" prefWidth="722.0" styleClass="table-view" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0">
+                                             <content>
+                                                <VBox prefHeight="473.0" prefWidth="718.0">
+                                                   <children>
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="718.0" styleClass="column-header-background">
+                                                         <children>
+                                                            <Label prefHeight="17.0" prefWidth="35.0" />
+                                                            <Label alignment="CENTER" prefHeight="27.0" prefWidth="205.0" text="Sender" textFill="WHITE">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label alignment="CENTER" prefHeight="27.0" prefWidth="435.0" text="Tiltle" textFill="WHITE">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="718.0">
+                                                         <children>
+                                                            <CheckBox mnemonicParsing="false">
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                               <HBox.margin>
+                                                                  <Insets left="10.0" />
+                                                               </HBox.margin>
+                                                            </CheckBox>
+                                                            <Label alignment="CENTER" prefHeight="17.0" prefWidth="205.0" text="Sender Name">
+                                                               <HBox.margin>
+                                                                  <Insets left="10.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                            </Label>
+                                                            <Label alignment="CENTER" prefHeight="27.0" prefWidth="435.0" text="Tiltle of inbox">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                            </Label>
+                                                            <FontAwesomeIcon glyphName="EYE" size="1.5em" />
+                                                            <FontAwesomeIcon glyphName="EYE_SLASH" size="1.5em" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </content>
+                                          </ScrollPane>
+                                          <Button layoutX="690.0" layoutY="9.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="36.0" styleClass="delete-btn">
+                                             <graphic>
+                                                <FontAwesomeIcon fill="WHITE" glyphName="TRASH" size="1.75em" />
+                                             </graphic>
+                                          </Button>
+                                       </children></AnchorPane>
+                                    <AnchorPane fx:id="Inbox_WriteForm" prefHeight="545.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <Label layoutX="14.0" layoutY="14.0" text="Soạn tin nhắn">
+                                             <font>
+                                                <Font name="System Bold" size="20.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3700000047683716" green="1.0" blue="0.7720000147819519" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.006711409395973154">
+                                                         <color>
+                                                            <Color red="0.3686274588108063" green="1.0" blue="0.772549033164978" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.2916666567325592" green="1.0" blue="0.988194465637207" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Separator layoutY="45.0" prefHeight="5.0" prefWidth="741.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                          <Label layoutX="25.0" layoutY="78.0" text="Khóa học:">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.45098039507865906" green="1.0" blue="0.9921568632125854" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.006711409395973154">
+                                                         <color>
+                                                            <Color red="0.3686274588108063" green="1.0" blue="0.772549033164978" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.1764705926179886" green="0.8901960849761963" blue="1.0" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Label layoutX="25.0" layoutY="115.0" text="Đến:">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.45098039507865906" green="1.0" blue="0.9921568632125854" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.006711409395973154">
+                                                         <color>
+                                                            <Color red="0.3686274588108063" green="1.0" blue="0.772549033164978" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.1764705926179886" green="0.8901960849761963" blue="1.0" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Label layoutX="25.0" layoutY="153.0" text="Chủ đề:">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.45098039507865906" green="1.0" blue="0.9921568632125854" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.006711409395973154">
+                                                         <color>
+                                                            <Color red="0.3686274588108063" green="1.0" blue="0.772549033164978" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.1764705926179886" green="0.8901960849761963" blue="1.0" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <ComboBox fx:id="Inbox_Course" layoutX="111.0" layoutY="77.0" prefHeight="30.0" prefWidth="235.0" styleClass="textfield" stylesheets="@Design/DashBoardDesign.css" />
+                                          <ComboBox fx:id="Inbox_position" layoutX="69.0" layoutY="114.0" prefHeight="30.0" prefWidth="150.0" styleClass="textfield" stylesheets="@Design/DashBoardDesign.css" />
+                                          <ComboBox fx:id="Inbox_Receiver" layoutX="229.0" layoutY="114.0" prefHeight="30.0" prefWidth="318.0" styleClass="textfield" stylesheets="@Design/DashBoardDesign.css" />
+                                          <TextField fx:id="Inbox_Tiltle" layoutX="94.0" layoutY="152.0" prefHeight="30.0" prefWidth="453.0" styleClass="textfield" stylesheets="@Design/DashBoardDesign.css" />
+                                          <Separator layoutY="196.0" prefHeight="2.0" prefWidth="736.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                          <Separator layoutX="4.0" layoutY="505.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                          <Button layoutX="680.0" layoutY="508.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="61.0" styleClass="signout" text="Send" textFill="WHITE" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="513.0" />
+                                          <TextArea layoutX="4.0" layoutY="196.0" prefHeight="309.0" prefWidth="740.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                       </children></AnchorPane>
+                                    <AnchorPane fx:id="Inbox_SentForm" layoutX="10.0" layoutY="10.0" prefHeight="555.0" prefWidth="750.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <TextField layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0" promptText="Search" styleClass="search" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="9.0" />
+                                          <FontAwesomeIcon glyphName="SEARCH" layoutX="14.0" layoutY="31.0" size="1.5em" text="" wrappingWidth="16.714284896850586" />
+                                          <ScrollPane layoutX="9.0" layoutY="58.0" prefHeight="477.0" prefWidth="722.0" styleClass="table-view" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0">
+                                             <content>
+                                                <VBox prefHeight="473.0" prefWidth="718.0">
+                                                   <children>
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="718.0" styleClass="column-header-background">
+                                                         <children>
+                                                            <Label prefHeight="17.0" prefWidth="35.0" />
+                                                            <Label alignment="CENTER" prefHeight="27.0" prefWidth="205.0" text="Sender" textFill="WHITE">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label alignment="CENTER" prefHeight="27.0" prefWidth="435.0" text="Tiltle" textFill="WHITE">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="718.0">
+                                                         <children>
+                                                            <CheckBox mnemonicParsing="false">
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                               <HBox.margin>
+                                                                  <Insets left="10.0" />
+                                                               </HBox.margin>
+                                                            </CheckBox>
+                                                            <Label alignment="CENTER" prefHeight="17.0" prefWidth="205.0" text="Sender Name">
+                                                               <HBox.margin>
+                                                                  <Insets left="10.0" />
+                                                               </HBox.margin>
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                            </Label>
+                                                            <Label alignment="CENTER" prefHeight="27.0" prefWidth="435.0" text="Tiltle of inbox">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                               <opaqueInsets>
+                                                                  <Insets />
+                                                               </opaqueInsets>
+                                                            </Label>
+                                                            <FontAwesomeIcon glyphName="EYE" size="1.5em" />
+                                                            <FontAwesomeIcon glyphName="EYE_SLASH" size="1.5em" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </content>
+                                          </ScrollPane>
+                                          <Button layoutX="690.0" layoutY="9.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="36.0" styleClass="delete-btn">
+                                             <graphic>
+                                                <FontAwesomeIcon fill="WHITE" glyphName="TRASH" size="1.75em" />
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </AnchorPane>
                                  </children>
                               </AnchorPane>
                            </children>
@@ -481,7 +742,7 @@
                                                    <stops>
                                                       <Stop>
                                                          <color>
-                                                            <Color red="0.3806042969226837" green="0.9342105388641357" blue="0.8696231245994568" />
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
                                                          </color>
                                                       </Stop>
                                                       <Stop offset="0.9832214765100671">
@@ -498,18 +759,253 @@
                                                 </LinearGradient>
                                              </textFill>
                                           </Label>
-                                          <TextField layoutX="77.0" layoutY="74.0" prefHeight="30.0" prefWidth="224.0" promptText="First Name" styleClass="textfield" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="106.0" />
-                                          <TextField layoutX="470.0" layoutY="74.0" prefHeight="30.0" prefWidth="224.0" promptText="Last Name" styleClass="textfield" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="106.0" />
-                                          <TextField layoutX="75.0" layoutY="150.0" prefHeight="30.0" prefWidth="224.0" promptText="Phone Number" styleClass="textfield" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="190.0" />
-                                          <Button layoutX="299.0" layoutY="443.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="75.0" styleClass="signout" text="Save" textFill="WHITE">
+                                          <TextField fx:id="Setting_ChangeInfo_FName" layoutX="77.0" layoutY="74.0" onAction="#setSettingChangeInfoData" prefHeight="30.0" prefWidth="224.0" promptText="First Name" styleClass="textfield" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="106.0" />
+                                          <TextField fx:id="Setting_ChangeInfo_LName" layoutX="470.0" layoutY="74.0" onAction="#setSettingChangeInfoData" prefHeight="30.0" prefWidth="224.0" promptText="Last Name" styleClass="textfield" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="106.0" />
+                                          <TextField fx:id="Setting_ChangeInfo_Phone" layoutX="75.0" layoutY="150.0" onAction="#setSettingChangeInfoData" prefHeight="30.0" prefWidth="224.0" promptText="Phone Number" styleClass="textfield" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="190.0" />
+                                          <Button fx:id="Setting_ChangeInfo_Save_btn" layoutX="583.0" layoutY="500.0" mnemonicParsing="false" onAction="#saveSettingChangeInfoData" prefHeight="30.0" prefWidth="75.0" styleClass="signout" text="Save" textFill="WHITE">
                                              <font>
                                                 <Font size="15.0" />
                                              </font></Button>
-                                          <ComboBox layoutX="374.0" layoutY="193.0" prefHeight="30.0" prefWidth="224.0" promptText="Gender" styleClass="textfield" AnchorPane.rightAnchor="75.0" />
-                                          <TextField layoutX="75.0" layoutY="273.0" prefHeight="30.0" prefWidth="224.0" promptText="Province/City" styleClass="textfield" />
-                                          <TextField layoutX="373.0" layoutY="273.0" prefHeight="30.0" prefWidth="224.0" promptText="District" styleClass="textfield" />
-                                          <TextField layoutX="75.0" layoutY="358.0" prefHeight="30.0" prefWidth="224.0" promptText="Ward" styleClass="textfield" />
-                                          <TextField layoutX="374.0" layoutY="358.0" prefHeight="30.0" prefWidth="224.0" promptText="Street" styleClass="textfield" />
+                                          <ComboBox fx:id="Setting_ChangeInfo_Gender" layoutX="374.0" layoutY="193.0" onAction="#setSettingChangeInfoData" prefHeight="30.0" prefWidth="224.0" promptText="Gender" styleClass="textfield" AnchorPane.rightAnchor="75.0" />
+                                          <TextField fx:id="Setting_ChangeInfo_City" layoutX="75.0" layoutY="273.0" onAction="#setSettingChangeInfoData" prefHeight="30.0" prefWidth="224.0" promptText="Province/City" styleClass="textfield" />
+                                          <TextField fx:id="Setting_ChangeInfo_District" layoutX="373.0" layoutY="273.0" onAction="#setSettingChangeInfoData" prefHeight="30.0" prefWidth="224.0" promptText="District" styleClass="textfield" />
+                                          <TextField fx:id="Setting_ChangeInfo_Ward" layoutX="75.0" layoutY="358.0" onAction="#setSettingChangeInfoData" prefHeight="30.0" prefWidth="224.0" promptText="Ward" styleClass="textfield" />
+                                          <TextField fx:id="Setting_ChangeInfo_Street" layoutX="374.0" layoutY="358.0" onAction="#setSettingChangeInfoData" prefHeight="30.0" prefWidth="224.0" promptText="Street" styleClass="textfield" />
+                                          <Label layoutX="75.0" layoutY="77.0" text="First Name:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Label layoutX="373.0" layoutY="77.0" text="Last Name:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Label layoutX="75.0" layoutY="159.0" text="Phone Number:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Label layoutX="373.0" layoutY="159.0" text="Gender:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Label layoutX="75.0" layoutY="241.0" text="Province/City:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Label layoutX="373.0" layoutY="241.0" text="District:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Label layoutX="75.0" layoutY="324.0" text="Ward:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Label layoutX="373.0" layoutY="324.0" text="Street:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Label layoutX="75.0" layoutY="415.0" text="Email:">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <TextField fx:id="Setting_ChangeInfo_Email" layoutX="75.0" layoutY="443.0" onAction="#setSettingChangeInfoData" prefHeight="30.0" prefWidth="224.0" promptText="Email" styleClass="textfield" />
                                        </children>
                                     </AnchorPane>
                                     <AnchorPane fx:id="Setting_changePass_form" layoutX="116.0" layoutY="73.0" prefHeight="545.0" prefWidth="672.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -540,10 +1036,10 @@
                                                 </LinearGradient>
                                              </textFill>
                                           </Label>
-                                          <TextField layoutX="262.0" layoutY="119.0" prefHeight="30.0" prefWidth="224.0" promptText="Old Password" styleClass="textfield" AnchorPane.leftAnchor="224.0" AnchorPane.topAnchor="120.0" />
-                                          <TextField layoutX="224.0" layoutY="204.0" prefHeight="30.0" prefWidth="224.0" promptText="New Password" styleClass="textfield" AnchorPane.leftAnchor="224.0" AnchorPane.topAnchor="200.0" />
-                                          <TextField layoutX="262.0" layoutY="305.0" prefHeight="30.0" prefWidth="224.0" promptText="New Password" styleClass="textfield" AnchorPane.leftAnchor="224.0" AnchorPane.topAnchor="280.0" />
-                                          <Button layoutX="286.0" layoutY="384.0" mnemonicParsing="false" prefWidth="100.0" styleClass="signout" text="Save" textFill="WHITE">
+                                          <TextField fx:id="Setting_ChangePass_OldPass" layoutX="262.0" layoutY="119.0" prefHeight="30.0" prefWidth="224.0" promptText="Old Password" styleClass="textfield" AnchorPane.leftAnchor="224.0" AnchorPane.topAnchor="120.0" />
+                                          <TextField fx:id="Setting_ChangePass_NewPass" layoutX="224.0" layoutY="204.0" prefHeight="30.0" prefWidth="224.0" promptText="New Password" styleClass="textfield" AnchorPane.leftAnchor="224.0" AnchorPane.topAnchor="200.0" />
+                                          <TextField fx:id="Setting_ChangePass_ComfirmNewPass" layoutX="262.0" layoutY="305.0" prefHeight="30.0" prefWidth="224.0" promptText="Comfirm New Password" styleClass="textfield" AnchorPane.leftAnchor="224.0" AnchorPane.topAnchor="280.0" />
+                                          <Button fx:id="Setting_ChangePass_Save_btn" layoutX="286.0" layoutY="384.0" mnemonicParsing="false" onAction="#changePassword" prefWidth="100.0" styleClass="signout" text="Save" textFill="WHITE">
                                              <font>
                                                 <Font size="15.0" />
                                              </font>
@@ -708,7 +1204,7 @@
                                                 </LinearGradient>
                                              </textFill>
                                           </Label>
-                                          <Label layoutX="75.0" layoutY="300.0" text="Address:">
+                                          <Label layoutX="66.0" layoutY="368.0" text="Address:">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
@@ -734,35 +1230,213 @@
                                                 </LinearGradient>
                                              </textFill>
                                           </Label>
-                                          <Label fx:id="InFo_FName_Label" layoutX="179.0" layoutY="90.0" prefHeight="27.0" prefWidth="200.0" text="Phùng">
+                                          <Label fx:id="Setting_InFo_FName" layoutX="165.0" layoutY="90.0" prefHeight="27.0" prefWidth="214.0" text="Phùng">
                                              <font>
-                                                <Font size="18.0" />
+                                                <Font name="System Bold" size="18.0" />
                                              </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
                                           </Label>
-                                          <Label fx:id="InFo_LName_Label" layoutX="510.0" layoutY="92.0" prefHeight="27.0" prefWidth="153.0" text="Lương">
+                                          <Label fx:id="Setting_InFo_LName" layoutX="510.0" layoutY="92.0" prefHeight="27.0" prefWidth="153.0" text="Lương">
                                              <font>
-                                                <Font size="18.0" />
+                                                <Font name="System Bold" size="18.0" />
                                              </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
                                           </Label>
-                                          <Label fx:id="InFo_PN_Label" layoutX="201.0" layoutY="159.0" prefHeight="27.0" prefWidth="200.0">
+                                          <Label fx:id="Setting_InFo_PN" layoutX="201.0" layoutY="159.0" prefHeight="27.0" prefWidth="200.0">
                                              <font>
-                                                <Font size="18.0" />
+                                                <Font name="System Bold" size="18.0" />
                                              </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
                                           </Label>
-                                          <Label fx:id="InFo_Gender_Label" layoutX="494.0" layoutY="161.0" prefHeight="27.0" prefWidth="143.0" text="Male">
+                                          <Label fx:id="Setting_InFo_Gender" layoutX="494.0" layoutY="161.0" prefHeight="27.0" prefWidth="143.0" text="Male">
                                              <font>
-                                                <Font size="18.0" />
+                                                <Font name="System Bold" size="18.0" />
                                              </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
                                           </Label>
-                                          <Label fx:id="InFo_ID_Label" layoutX="170.0" layoutY="226.0" prefHeight="27.0" prefWidth="143.0" text="SV-002">
+                                          <Label fx:id="Setting_InFo_ID" layoutX="170.0" layoutY="226.0" prefHeight="27.0" prefWidth="143.0" text="SV-002">
                                              <font>
-                                                <Font size="18.0" />
+                                                <Font name="System Bold" size="18.0" />
                                              </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
                                           </Label>
-                                          <Label fx:id="InFo_Address_Label" layoutX="155.0" layoutY="300.0" prefHeight="27.0" prefWidth="501.0">
+                                          <Label fx:id="Setting_InFo_Address" layoutX="144.0" layoutY="368.0" prefHeight="27.0" prefWidth="501.0">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Label layoutX="65.0" layoutY="300.0" text="Email:">
                                              <font>
                                                 <Font size="18.0" />
                                              </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.006711409395973154">
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.03921568766236305" green="0.8666666746139526" blue="0.8274509906768799" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
+                                          </Label>
+                                          <Label fx:id="Setting_InFo_Email" layoutX="120.0" layoutY="300.0" prefHeight="27.0" prefWidth="501.0">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                             <textFill>
+                                                <LinearGradient endX="1.0" endY="1.0">
+                                                   <stops>
+                                                      <Stop>
+                                                         <color>
+                                                            <Color red="0.3803921639919281" green="0.9333333373069763" blue="0.8705882430076599" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="0.9832214765100671">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                      <Stop offset="1.0">
+                                                         <color>
+                                                            <Color red="0.22612085938453674" green="0.7599740028381348" blue="0.8421052694320679" />
+                                                         </color>
+                                                      </Stop>
+                                                   </stops>
+                                                </LinearGradient>
+                                             </textFill>
                                           </Label>
                                        </children>
                                     </AnchorPane>
