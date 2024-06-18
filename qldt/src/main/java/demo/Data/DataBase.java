@@ -22,10 +22,9 @@ public class DataBase {
             Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
             System.out.println("Connected");
             return conn;
+        }catch(Exception e){
+            e.printStackTrace();
         }
-        // }catch(Exception e){
-        //     e.printStackTrace();
-        // }
         return null;
     }
 }
