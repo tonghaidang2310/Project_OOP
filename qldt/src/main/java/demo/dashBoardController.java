@@ -18,6 +18,7 @@ import demo.DAO.AccountDAO;
 import demo.DAO.ClassSectionDAO;
 import demo.DAO.CourseDAO;
 import demo.DAO.StudentClassSectionDAO;
+import demo.DAO.StudentDAO;
 import demo.Entity.Lecturer;
 import demo.Entity.Student;
 
@@ -39,6 +40,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -99,10 +101,34 @@ public class dashBoardController implements Initializable{
     private AnchorPane Inbox_SentForm;
 
     @FXML
+    private ComboBox<?> Inbox_Course;
+
+    @FXML
+    private ComboBox<?> Inbox_Receiver;
+
+    @FXML
+    private TextField Inbox_Tiltle;
+
+    @FXML
+    private AnchorPane Inbox_WriteForm;
+
+    @FXML
+    private TextArea Inbox_body;
+
+    @FXML
+    private ComboBox<?> Inbox_position;
+
+    @FXML
+    private Button Inbox_send_btn;
+
+    @FXML
     private Button Inbox_btn;
 
     @FXML
     private AnchorPane Inbox_form;
+
+    @FXML
+    private Button Write_btn;
 
     @FXML
     private Button Info_btn;
@@ -153,7 +179,58 @@ public class dashBoardController implements Initializable{
     private Button Send_btn;
 
     @FXML
+    private TextField Setting_ChangeInfo_City;
+
+    @FXML
+    private TextField Setting_ChangeInfo_District;
+
+    @FXML
+    private TextField Setting_ChangeInfo_FName;
+
+    @FXML
+    private ComboBox<String> Setting_ChangeInfo_Gender;
+
+    @FXML
+    private TextField Setting_ChangeInfo_Email;
+
+    @FXML
+    private TextField Setting_ChangeInfo_LName;
+
+    @FXML
+    private TextField Setting_ChangeInfo_Phone;
+
+    @FXML
+    private Button Setting_ChangeInfo_Save_btn;
+
+    @FXML
+    private TextField Setting_ChangeInfo_Street;
+
+    @FXML
+    private TextField Setting_ChangeInfo_Ward;
+
+    @FXML
     private AnchorPane Setting_InFo_Form;
+
+    @FXML
+    private Label Setting_InFo_Address;
+
+    @FXML
+    private Label Setting_InFo_Email;
+
+    @FXML
+    private Label Setting_InFo_FName;
+
+    @FXML
+    private Label Setting_InFo_Gender;
+
+    @FXML
+    private Label Setting_InFo_ID;
+
+    @FXML
+    private Label Setting_InFo_LName;
+
+    @FXML
+    private Label Setting_InFo_PN;
 
     @FXML
     private Button Setting_btn;
@@ -163,6 +240,18 @@ public class dashBoardController implements Initializable{
 
     @FXML
     private AnchorPane Setting_changePass_form;
+
+    @FXML
+    private TextField Setting_ChangePass_ComfirmNewPass;
+
+    @FXML
+    private TextField Setting_ChangePass_NewPass;
+
+    @FXML
+    private TextField Setting_ChangePass_OldPass;
+
+    @FXML
+    private Button Setting_ChangePass_Save_btn;
 
     @FXML
     private AnchorPane Setting_form;
@@ -214,12 +303,12 @@ public class dashBoardController implements Initializable{
     }
 
     // Register
-    private String[] status = {"All", "Registered", "Not registered"};
+    private String[] registerStatus = {"All", "Registered", "Not registered"};
 
     public void Register_status(){
         List<String> listStatus = new ArrayList<>();
 
-        for(String s : status){
+        for(String s : registerStatus){
             listStatus.add(s);
         }
 
@@ -351,6 +440,149 @@ public class dashBoardController implements Initializable{
         });
     }
 
+    // Inbox
+    
+    // Setting
+    private String[] genderStatus = {"Male", "Female", "Other"};
+
+    public void ChangeInfoGender_status(){
+        List<String> listGender = new ArrayList<>();
+
+        for(String s : genderStatus){
+            listGender.add(s);
+        }
+
+        ObservableList<String> listData = FXCollections.observableArrayList(listGender);
+        Setting_ChangeInfo_Gender.setItems(listData);
+    }
+
+    public void setSettingChangeInfoData(){
+        String userType = currentAccount.getTypeAccount();
+        if(userType.equals("Student")){
+            student = (Student) new AccountDAO().getInfoPerson(currentAccount.getStudentID(), "Student");
+            String[] parts;
+            if(student.getAddress() != null) {
+                parts = student.getAddress().split(" - ");
+            }else{
+                parts = new String[4];
+            }
+            Setting_ChangeInfo_FName.setText(student.getFirstName());
+            Setting_ChangeInfo_LName.setText(student.getLastName());
+            Setting_ChangeInfo_Phone.setText(student.getPhoneNumber());
+            Setting_ChangeInfo_Street.setText(parts[0]);
+            Setting_ChangeInfo_Ward.setText(parts[1]);
+            Setting_ChangeInfo_District.setText(parts[2]);
+            Setting_ChangeInfo_City.setText(parts[3]);
+            Setting_ChangeInfo_Gender.setValue(student.getGender());
+            Setting_ChangeInfo_Email.setText(student.getEmail());
+        }
+    }
+
+    public void saveSettingChangeInfoData(){
+        String userType = currentAccount.getTypeAccount();
+
+        Alert alert;
+        alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to change the information?");
+        Optional<ButtonType> option = alert.showAndWait();
+
+        if(option.get().equals(ButtonType.OK)){
+            if(userType.equals("Student")){
+                String studentID = currentAccount.getStudentID();
+                String fName = Setting_ChangeInfo_FName.getText();
+                String lName = Setting_ChangeInfo_LName.getText();
+                String phone = Setting_ChangeInfo_Phone.getText();
+                String street = Setting_ChangeInfo_Street.getText();
+                String ward = Setting_ChangeInfo_Ward.getText();
+                String district = Setting_ChangeInfo_District.getText();
+                String city = Setting_ChangeInfo_City.getText();
+                String gender = Setting_ChangeInfo_Gender.getValue();
+                String email = Setting_ChangeInfo_Email.getText();
+                String address = street + " - " + ward + " - " + district + " - " + city;
+
+                Student student = new Student(fName, lName, phone, email, gender, null, address);
+                new StudentDAO().updateStudentInfo(studentID, student);
+
+                alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Information changed successfully");
+                alert.showAndWait();
+
+                displayUserName();
+            }
+        }
+    }
+
+    public void setSettingChangePassData(){
+        Setting_ChangePass_OldPass.clear();
+        Setting_ChangePass_NewPass.clear();
+        Setting_ChangePass_ComfirmNewPass.clear();
+    }
+
+    public void changePassword(){
+        setSettingChangePassData();
+        currentAccount = new AccountDAO().getCurrentAccount();
+        String oldPass = Setting_ChangePass_OldPass.getText();
+        String newPass = Setting_ChangePass_NewPass.getText();
+        String comfirmPass = Setting_ChangePass_ComfirmNewPass.getText();
+        String currPass = currentAccount.getPassword();
+
+        Alert alert;
+
+        if(oldPass.isEmpty() || newPass.isEmpty() || comfirmPass.isEmpty()){
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill in all fields");
+            alert.showAndWait();
+        }else if(!(new AccountDAO().checkPassword(oldPass, currPass))){
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Old password is incorrect");
+            alert.showAndWait();
+        }else if(!(newPass.equals(comfirmPass))){
+            alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("New password and confirm password do not match");
+            alert.showAndWait();
+        }else{
+            alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to change the password?");
+            Optional<ButtonType> option = alert.showAndWait();
+
+            if(option.get().equals(ButtonType.OK)){
+                new AccountDAO().changePassword(currentAccount.getAccountID(), newPass);
+                alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Password changed successfully");
+                alert.showAndWait();
+                setSettingChangePassData();
+            }
+        }
+    }
+
+    public void setInfoData(){
+        String userType = currentAccount.getTypeAccount();
+        if(userType.equals("Student")){
+            student = (Student) new AccountDAO().getInfoPerson(currentAccount.getStudentID(), "Student");
+            Setting_InFo_ID.setText(student.getID());
+            Setting_InFo_FName.setText(student.getFirstName());
+            Setting_InFo_LName.setText(student.getLastName());
+            Setting_InFo_PN.setText(student.getPhoneNumber());
+            Setting_InFo_Email.setText(student.getEmail());
+            Setting_InFo_Address.setText(student.getAddress());
+            Setting_InFo_Gender.setText(student.getGender());
+        }
+    }
+
     // Switch Form
     public void switchForm(ActionEvent e){
         setStyleButton(DashBoard_btn);
@@ -418,14 +650,17 @@ public class dashBoardController implements Initializable{
             Setting_changeInFo_form.setVisible(true);
             Setting_changePass_form.setVisible(false);
             Setting_InFo_Form.setVisible(false);
+            setStyleSettingButton(changeInfo_btn);
         }else if(e.getSource() == ChangePass_btn){
             Setting_changeInFo_form.setVisible(false);
             Setting_changePass_form.setVisible(true);
             Setting_InFo_Form.setVisible(false);
+            setStyleSettingButton(ChangePass_btn);
         }else if(e.getSource() == Info_btn){
             Setting_changeInFo_form.setVisible(false);
             Setting_changePass_form.setVisible(false);
             Setting_InFo_Form.setVisible(true);
+            setStyleSettingButton(Info_btn);
         }
     }
 
@@ -433,9 +668,18 @@ public class dashBoardController implements Initializable{
         if(e.getSource() == Inbox_btn){
             Inbox_InboxForm.setVisible(true);
             Inbox_SentForm.setVisible(false);
+            Inbox_WriteForm.setVisible(false);
+            setStyleInboxButton(Inbox_btn);
         }else if(e.getSource() == Send_btn){
             Inbox_InboxForm.setVisible(false);
             Inbox_SentForm.setVisible(true);
+            Inbox_WriteForm.setVisible(false);
+            setStyleInboxButton(Send_btn);
+        }else if(e.getSource() == Write_btn){
+            Inbox_InboxForm.setVisible(false);
+            Inbox_SentForm.setVisible(false);
+            Inbox_WriteForm.setVisible(true);
+            setStyleInboxButton(Write_btn);
         }
     }
 
@@ -570,5 +814,9 @@ public class dashBoardController implements Initializable{
         
         Course_status();
         Register_status();
+        ChangeInfoGender_status();
+
+        setSettingChangeInfoData();
+        setInfoData();
     }
 }
