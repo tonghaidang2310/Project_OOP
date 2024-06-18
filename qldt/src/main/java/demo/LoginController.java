@@ -5,16 +5,23 @@ package demo;
  */
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 import demo.Account.LecturerAccount;
 import demo.Account.StudentAccount;
 import demo.DAO.AccountDAO;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -22,10 +29,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class LoginController {
+public class LoginController implements Initializable {
 
     private double x = 0;
     private double y = 0;
+
+    @FXML
+    private ComboBox<String> SignIn_Type;
 
     @FXML
     private Button cLose;
@@ -44,6 +54,20 @@ public class LoginController {
 
     @FXML
     private Button signUpBtn;
+
+    private String[] type = {"Student", "Lecturer"};
+
+    public void selectPosition(){
+        List<String> list = new ArrayList<>();
+
+        for(String s : type){
+            list.add(s);
+        }
+
+        ObservableList<String> obList = FXCollections.observableArrayList(list);
+
+        SignIn_Type.setItems(obList);
+    }
     
     public void login(){
         String user = username.getText();
@@ -60,20 +84,34 @@ public class LoginController {
                 alert.setHeaderText(null);
                 alert.setContentText("Please fill in all fields");
                 alert.showAndWait();
+            }else if(SignIn_Type.getValue() == null){
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Please select a position");
+                alert.showAndWait();
             }else{
                 if(result){
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Login Successful");
-                    alert.showAndWait();
                     AccountDAO accountDAO = new AccountDAO();
                     String userType = accountDAO.checkTypeAccount(user);
                     if(userType.equals("Student"))
                         accountDAO.addCurrentAccount( (StudentAccount) new AccountDAO().getAccount(user, pass));
                     else if(userType.equals("Lecturer"))
                         accountDAO.addCurrentAccount( (LecturerAccount) new AccountDAO().getAccount(user, pass));
-                    switchToDashBoard();
+                    if(checkType(userType)){
+                        alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Information Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Login Successful");
+                        alert.showAndWait();
+                        switchToDashBoard();
+                    }else{
+                        alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("No account found with corresponding position");
+                        alert.showAndWait();
+                    }
                 }else{
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
@@ -85,7 +123,11 @@ public class LoginController {
         }catch(Exception e){    e.printStackTrace();}    
     }
 
-    
+    public boolean checkType(String type){
+        if(SignIn_Type.getValue().equals(type))
+            return true;
+        return false;
+    }
 
     @FXML
     private void switchToSignUp() throws IOException {
@@ -147,5 +189,10 @@ public class LoginController {
     @FXML
     private void close() {
         System.exit(0);
+    }
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        selectPosition();
     }
 }
