@@ -74,4 +74,21 @@ public class CourseDAO {
             return null;
         }
     }
+
+    // Hàm lấy tên của 1 khóa học
+    public String getCourseName(String courseID){
+        try {
+            connect = DataBase.connecDb();
+            prepare = connect.prepareStatement("SELECT nameCourse FROM course WHERE courseID = ?");
+            prepare.setString(1, courseID);
+            result = prepare.executeQuery();
+            if(result.next()){
+                return result.getString("nameCourse");
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

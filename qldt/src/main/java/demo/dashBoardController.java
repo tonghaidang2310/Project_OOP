@@ -14,11 +14,13 @@ import java.util.ResourceBundle;
 import demo.Account.CurrentAccount;
 import demo.Course.ClassSection;
 import demo.Course.Course;
+import demo.Course.StudentCourseProgress;
 import demo.DAO.AccountDAO;
 import demo.DAO.ClassSectionDAO;
 import demo.DAO.CourseDAO;
 import demo.DAO.InboxDAO;
 import demo.DAO.StudentClassSectionDAO;
+import demo.DAO.StudentCourseProgressDAO;
 import demo.DAO.StudentDAO;
 import demo.Entity.Inbox;
 import demo.Entity.Lecturer;
@@ -67,22 +69,25 @@ public class dashBoardController implements Initializable{
     private Button Course_btn;
 
     @FXML
-    private TableColumn<?, ?> Course_col_Status;
+    private TableColumn<CourseInfo, String> Course_col_ID;
 
     @FXML
-    private TableColumn<?, ?> Course_col_ID;
+    private TableColumn<CourseInfo, Integer> Course_col_STT;
 
     @FXML
-    private TableColumn<?, ?> Course_col_STT;
+    private TableColumn<CourseInfo, String> Course_col_Status;
 
     @FXML
-    private TableColumn<?, ?> Course_col_name;
+    private TableColumn<CourseInfo, Integer> Course_col_Times;
 
     @FXML
-    private TableColumn<?, ?> Course_col_schoolYear;
+    private TableColumn<CourseInfo, Double> Course_col_grade;
 
     @FXML
-    private TableColumn<?, ?> Course_col_grade;
+    private TableColumn<CourseInfo, String> Course_col_name;
+
+    @FXML
+    private TableView<CourseInfo> Course_table;
 
     @FXML
     private AnchorPane Course_form;
@@ -320,6 +325,168 @@ public class dashBoardController implements Initializable{
         ObservableList<String> listData = FXCollections.observableArrayList(listStatus);
 
         Course_choose_status.setItems(listData);
+    }
+
+    public void actionChooseStatus(ActionEvent e){
+        String status = Course_choose_status.getSelectionModel().getSelectedItem();
+        if(status == null){    setCourseData(); }
+        else if(status.equals("All")){    setCourseData();}
+        else if(status.equals("Completed")){    setCourseCompletedData();}
+        else if(status.equals("Fail")){    setCourseFailData();}
+        else if(status.equals("In progress")){    setCourseInProgressData();}
+    }
+
+    public class CourseInfo {
+        private int STT;
+        private String courseID;
+        private String nameCourse;
+        private int times;
+        private double grade;
+        private String status;
+
+        public CourseInfo(int STT, String courseID, String nameCourse, int times, double grade, String status){
+            this.STT = STT;
+            this.courseID = courseID;
+            this.nameCourse = nameCourse;
+            this.times = times;
+            this.grade = grade;
+            this.status = status;
+        }
+
+        public int getSTT() {
+            return STT;
+        }
+
+        public void setSTT(int STT) {
+            this.STT = STT;
+        }
+
+        public String getCourseID() {
+            return courseID;
+        }
+
+        public void setCourseID(String courseID) {
+            this.courseID = courseID;
+        }
+
+        public String getNameCourse() {
+            return nameCourse;
+        }
+
+        public void setNameCourse(String nameCourse) {
+            this.nameCourse = nameCourse;
+        }
+
+        public int getTimes() {
+            return times;
+        }
+
+        public void setTimes(int times) {
+            this.times = times;
+        }
+
+        public double getGrade() {
+            return grade;
+        }
+
+        public void setGrade(double grade) {
+            this.grade = grade;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+    }
+
+    public void setCourseCompletedData(){
+        List<CourseInfo> listData = new StudentCourseProgressDAO().setCourseCompletedData();
+
+        Course_col_STT.setCellValueFactory(new PropertyValueFactory<>("STT"));
+        Course_col_ID.setCellValueFactory(new PropertyValueFactory<>("courseID"));
+        Course_col_name.setCellValueFactory(new PropertyValueFactory<>("nameCourse"));
+        Course_col_Times.setCellValueFactory(new PropertyValueFactory<>("times"));
+        Course_col_grade.setCellValueFactory(new PropertyValueFactory<>("grade"));
+        Course_col_Status.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        ObservableList<CourseInfo> data = FXCollections.observableArrayList(listData);
+
+        Course_table.setItems(data);
+    }
+
+    public void setCourseFailData(){
+        List<CourseInfo> listData = new StudentCourseProgressDAO().setCourseFailedData();
+
+        Course_col_STT.setCellValueFactory(new PropertyValueFactory<>("STT"));
+        Course_col_ID.setCellValueFactory(new PropertyValueFactory<>("courseID"));
+        Course_col_name.setCellValueFactory(new PropertyValueFactory<>("nameCourse"));
+        Course_col_Times.setCellValueFactory(new PropertyValueFactory<>("times"));
+        Course_col_grade.setCellValueFactory(new PropertyValueFactory<>("grade"));
+        Course_col_Status.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        ObservableList<CourseInfo> data = FXCollections.observableArrayList(listData);
+
+        Course_table.setItems(data);
+    }
+
+    public void setCourseInProgressData(){
+        List<CourseInfo> listData = new StudentCourseProgressDAO().setCourseInProgressData();
+
+        Course_col_STT.setCellValueFactory(new PropertyValueFactory<>("STT"));
+        Course_col_ID.setCellValueFactory(new PropertyValueFactory<>("courseID"));
+        Course_col_name.setCellValueFactory(new PropertyValueFactory<>("nameCourse"));
+        Course_col_Times.setCellValueFactory(new PropertyValueFactory<>("times"));
+        Course_col_grade.setCellValueFactory(new PropertyValueFactory<>("grade"));
+        Course_col_Status.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        ObservableList<CourseInfo> data = FXCollections.observableArrayList(listData);
+
+        Course_table.setItems(data);
+    }
+
+    public void setCourseData(){
+        List<CourseInfo> listData = new StudentCourseProgressDAO().getCourses();
+
+        Course_col_STT.setCellValueFactory(new PropertyValueFactory<>("STT"));
+        Course_col_ID.setCellValueFactory(new PropertyValueFactory<>("courseID"));
+        Course_col_name.setCellValueFactory(new PropertyValueFactory<>("nameCourse"));
+        Course_col_Times.setCellValueFactory(new PropertyValueFactory<>("times"));
+        Course_col_grade.setCellValueFactory(new PropertyValueFactory<>("grade"));
+        Course_col_Status.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        ObservableList<CourseInfo> data = FXCollections.observableArrayList(listData);
+
+        Course_table.setItems(data);
+    }
+
+    public void Course_search(){
+        FilteredList<CourseInfo> filteredData = new FilteredList<>(Course_table.getItems(), p -> true);
+        Course_search.textProperty().addListener((observable, oldValue, newValue) -> {
+
+            filteredData.setPredicate(course -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (course.getNameCourse().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                } else if (course.getCourseID().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }else{
+                    return false;
+                }
+            });
+
+            SortedList<CourseInfo> sortedData = new SortedList<>(filteredData);
+
+            sortedData.comparatorProperty().bind(Course_table.comparatorProperty());
+            Course_table.setItems(sortedData);
+        });
     }
 
     // Register
@@ -632,7 +799,7 @@ public class dashBoardController implements Initializable{
         Inbox_Course.getSelectionModel().clearSelection();
         Inbox_Receiver.getSelectionModel().clearSelection();
     }
-    
+
     // Setting
     private String[] genderStatus = {"Male", "Female", "Other"};
 

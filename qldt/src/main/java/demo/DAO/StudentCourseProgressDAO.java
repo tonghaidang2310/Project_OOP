@@ -12,6 +12,8 @@ import java.util.List;
 
 import demo.Course.ClassSection;
 import demo.Data.DataBase;
+import demo.dashBoardController;
+import demo.dashBoardController.CourseInfo;
 
 public class StudentCourseProgressDAO {
     private Connection connect;
@@ -138,6 +140,140 @@ public class StudentCourseProgressDAO {
         }catch(Exception e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public List<CourseInfo> getCourses(){
+        String id = new AccountDAO().getUserTypeID(new AccountDAO().getCurrentAccount().getAccountID());
+
+        List<CourseInfo> courses = new ArrayList<>();
+        dashBoardController x = new dashBoardController();
+
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT * FROM StudentCourseProgress WHERE studentID = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, id);
+
+            result = prepare.executeQuery();
+            int stt = 0;
+            while(result.next()){
+                String courseID = result.getString("courseID");
+                String courseName = new CourseDAO().getCourseName(courseID);
+                String status = result.getString("status");
+                double grade = result.getDouble("finalgrade");
+                int times = result.getInt("times");
+                CourseInfo course = x.new CourseInfo(++stt, courseID, courseName, times, grade, status);
+                courses.add(course);
+            }
+            return courses;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<CourseInfo> setCourseCompletedData(){
+        String id = new AccountDAO().getUserTypeID(new AccountDAO().getCurrentAccount().getAccountID());
+
+        List<CourseInfo> courses = new ArrayList<>();
+        dashBoardController x = new dashBoardController();
+
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT * FROM StudentCourseProgress WHERE studentID = ? AND status = 'Completed'";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, id);
+
+            result = prepare.executeQuery();
+            int stt = 0;
+            while(result.next()){
+                String courseID = result.getString("courseID");
+                String courseName = new CourseDAO().getCourseName(courseID);
+                String status = result.getString("status");
+                double grade = result.getDouble("finalgrade");
+                int times = result.getInt("times");
+                CourseInfo course = x.new CourseInfo(++stt, courseID, courseName, times, grade, status);
+                courses.add(course);
+            }
+            return courses;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<CourseInfo> setCourseFailedData(){
+        String id = new AccountDAO().getUserTypeID(new AccountDAO().getCurrentAccount().getAccountID());
+
+        List<CourseInfo> courses = new ArrayList<>();
+        dashBoardController x = new dashBoardController();
+
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT * FROM StudentCourseProgress WHERE studentID = ? AND status = 'Failed'";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, id);
+
+            result = prepare.executeQuery();
+            int stt = 0;
+            while(result.next()){
+                String courseID = result.getString("courseID");
+                String courseName = new CourseDAO().getCourseName(courseID);
+                String status = result.getString("status");
+                double grade = result.getDouble("finalgrade");
+                int times = result.getInt("times");
+                CourseInfo course = x.new CourseInfo(++stt, courseID, courseName, times, grade, status);
+                courses.add(course);
+            }
+            return courses;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<CourseInfo> setCourseInProgressData(){
+        String id = new AccountDAO().getUserTypeID(new AccountDAO().getCurrentAccount().getAccountID());
+
+        List<CourseInfo> courses = new ArrayList<>();
+        dashBoardController x = new dashBoardController();
+
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT * FROM StudentCourseProgress WHERE studentID = ? AND status = 'InProgress'";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, id);
+
+            result = prepare.executeQuery();
+            int stt = 0;
+            while(result.next()){
+                String courseID = result.getString("courseID");
+                String courseName = new CourseDAO().getCourseName(courseID);
+                String status = result.getString("status");
+                double grade = result.getDouble("finalgrade");
+                int times = result.getInt("times");
+                CourseInfo course = x.new CourseInfo(++stt, courseID, courseName, times, grade, status);
+                courses.add(course);
+            }
+            return courses;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void updateTimes(String studentID, String courseID){
+        try{
+            connect = DataBase.connecDb();
+            String sql = "UPDATE StudentCourseProgress SET times = times + 1 WHERE studentID = ? AND courseID = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, studentID);
+            prepare.setString(2, courseID);
+
+            prepare.executeUpdate();
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 }

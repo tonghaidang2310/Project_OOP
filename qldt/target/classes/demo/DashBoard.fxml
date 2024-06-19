@@ -241,7 +241,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="Course_form" layoutX="79.0" layoutY="129.0" prefHeight="555.0" prefWidth="887.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="Course_form" layoutX="79.0" layoutY="129.0" prefHeight="555.0" prefWidth="887.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="5.0" layoutY="5.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                  <styleClass>
@@ -249,28 +249,28 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                                  <children>
-                                    <TextField fx:id="Course_search" layoutX="21.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0" promptText="Search" styleClass="search" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                    <TextField fx:id="Course_search" layoutX="21.0" layoutY="14.0" onAction="#Course_search" prefHeight="30.0" prefWidth="200.0" promptText="Search" styleClass="search" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </TextField>
                                     <FontAwesomeIcon glyphName="SEARCH" layoutX="29.0" layoutY="41.0" size="1.5em" text="" />
-                                    <TableView layoutX="19.0" layoutY="67.0" prefHeight="324.0" prefWidth="286.0" styleClass="table-column" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="70.0">
+                                    <TableView fx:id="Course_table" layoutX="19.0" layoutY="67.0" prefHeight="324.0" prefWidth="286.0" styleClass="table-column" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="70.0">
                                       <columns>
                                         <TableColumn fx:id="Course_col_STT" prefWidth="75.0" text="STT" />
                                         <TableColumn fx:id="Course_col_ID" prefWidth="172.0" text="Mã" />
                                           <TableColumn fx:id="Course_col_name" prefWidth="180.0" text="Môn học" />
-                                          <TableColumn fx:id="Course_col_schoolYear" prefWidth="167.0" text="Năm học" />
-                                          <TableColumn fx:id="Course_col_Status" prefWidth="125.0" text="Số lần học" />
+                                          <TableColumn fx:id="Course_col_Status" prefWidth="167.0" text="Trạng thái" />
+                                          <TableColumn fx:id="Course_col_Times" prefWidth="125.0" text="Số lần học" />
                                           <TableColumn fx:id="Course_col_grade" prefWidth="116.0" text="Điểm" />
                                       </columns>
                                     </TableView>
-                                    <ComboBox fx:id="Course_choose_status" layoutX="248.0" layoutY="23.0" prefHeight="30.0" prefWidth="200.0" promptText="Choose" styleClass="search" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="20.0" />
+                                    <ComboBox fx:id="Course_choose_status" layoutX="248.0" layoutY="23.0" onAction="#actionChooseStatus" prefHeight="30.0" prefWidth="200.0" promptText="Choose" styleClass="search" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="20.0" />
                                  </children>
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="Inbox_form" prefHeight="555.0" prefWidth="887.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="Inbox_form" prefHeight="555.0" prefWidth="887.0" stylesheets="@Design/DashBoardDesign.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutY="14.0" prefHeight="545.0" prefWidth="129.0" stylesheets="@Design/DashBoardDesign.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                                  <children>
