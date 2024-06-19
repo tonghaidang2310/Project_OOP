@@ -324,7 +324,7 @@
                                  <children>
                                     <AnchorPane fx:id="Inbox_InboxForm" prefHeight="545.0" prefWidth="740.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <TextField fx:id="Inbox_Inbox_Search" layoutX="14.0" layoutY="14.0" onKeyTyped="#searchInbox" prefHeight="30.0" prefWidth="200.0" promptText="Search" styleClass="search" visible="false" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="9.0" />
+                                          <TextField fx:id="Inbox_Inbox_Search" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0" promptText="Search" styleClass="search" visible="false" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="9.0" />
                                           <FontAwesomeIcon glyphName="SEARCH" layoutX="14.0" layoutY="31.0" size="1.5em" text="" visible="false" wrappingWidth="16.714284896850586" />
                                           <ScrollPane layoutX="9.0" layoutY="58.0" prefHeight="526.0" prefWidth="722.0" styleClass="table-view" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0">
                                              <content>
