@@ -141,12 +141,31 @@ public class InboxDAO {
         return list;
     }
 
-    public Inbox getInbox(int receiverID, String tiltle){
+    public Inbox getReceiveInbox(int receiverID, String tiltle){
         try{
             connect = DataBase.connecDb();
             String sql = "SELECT * FROM Email WHERE receiverID = ? AND tiltle = ?";
             prepare = connect.prepareStatement(sql);
             prepare.setInt(1, receiverID);
+            prepare.setString(2, tiltle);
+
+            result = prepare.executeQuery();
+            while(result.next()){
+                Inbox inbox = new Inbox(result.getInt("emailID"), result.getInt("senderID"), result.getInt("receiverID"), result.getString("tiltle"), result.getString("body"), result.getString("classSectionID"));
+                return inbox;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Inbox getSendInbox(int sentID, String tiltle){
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT * FROM Email WHERE senderID = ? AND tiltle = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setInt(1, sentID);
             prepare.setString(2, tiltle);
 
             result = prepare.executeQuery();

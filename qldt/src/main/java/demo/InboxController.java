@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -22,9 +23,6 @@ public class InboxController implements Initializable{
 
     @FXML
     private Button Inbox_read;
-    
-    @FXML
-    private CheckBox check_box;
 
     @FXML
     private Label sender_name;
@@ -35,10 +33,6 @@ public class InboxController implements Initializable{
     public void setData(String name, String tiltle){
         sender_name.setText(name);
         tiltle_inbox.setText(tiltle);
-    }
-
-    public boolean isCheckBoxSelected(){
-        return check_box.isSelected();
     }
 
     public String getTiltle(){

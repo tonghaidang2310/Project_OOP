@@ -29,18 +29,15 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -588,6 +585,7 @@ public class dashBoardController implements Initializable{
             alert.setHeaderText(null);
             alert.setContentText("Message sent successfully");
             alert.showAndWait();
+            clearWriteInbox();
         }
     }
 
@@ -614,12 +612,12 @@ public class dashBoardController implements Initializable{
 
         for(Inbox inbox : listInbox){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Inbox.fxml"));
-            String receiverName = new InboxDAO().getReceiverName(inbox.getReceiverID());
+            String senderName = new InboxDAO().getSenderName(inbox.getSenderID());
             String tiltle = inbox.getTiltle();
             try {
                 HBox hbox = loader.load();
                 InboxController controller = loader.getController();
-                controller.setData(receiverName, tiltle);
+                controller.setData(senderName, tiltle);
                 Inbox_Sent_Table.getChildren().add(hbox);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -627,6 +625,14 @@ public class dashBoardController implements Initializable{
         }
     }
 
+    public void clearWriteInbox(){
+        Inbox_Tiltle.clear();
+        Inbox_body.clear();
+        Inbox_position.getSelectionModel().clearSelection();
+        Inbox_Course.getSelectionModel().clearSelection();
+        Inbox_Receiver.getSelectionModel().clearSelection();
+    }
+    
     // Setting
     private String[] genderStatus = {"Male", "Female", "Other"};
 
@@ -860,6 +866,7 @@ public class dashBoardController implements Initializable{
             Inbox_Inbox_table.getChildren().clear();
             Inbox_Inbox_table.getChildren().add(Inbox_Inbox_Table_Tiltle);
             setInboxData();
+            SharedData.getInstance().setSelectedButton("inbox");
         }else if(e.getSource() == Send_btn){
             Inbox_InboxForm.setVisible(false);
             Inbox_SentForm.setVisible(true);
@@ -869,11 +876,13 @@ public class dashBoardController implements Initializable{
             Inbox_Sent_Table.getChildren().clear();
             Inbox_Sent_Table.getChildren().add(Inbox_Sent_Table_Tiltle);
             setSentData();
+            SharedData.getInstance().setSelectedButton("sent");
         }else if(e.getSource() == Write_btn){
             Inbox_InboxForm.setVisible(false);
             Inbox_SentForm.setVisible(false);
             Inbox_WriteForm.setVisible(true);
             setStyleInboxButton(Write_btn);
+            clearWriteInbox();
         }
     }
 
@@ -1010,6 +1019,8 @@ public class dashBoardController implements Initializable{
         Register_status();
         ChangeInfoGender_status();
         setInbox();
+        setSentData();
+        setInboxData();
 
         setSettingChangeInfoData();
         setInfoData();

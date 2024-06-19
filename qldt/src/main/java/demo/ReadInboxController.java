@@ -37,14 +37,27 @@ public class ReadInboxController implements Initializable{
     private Label Read_tiltle;
 
     public void setReadForm(String tiltle, String senderName){
-        Inbox inbox = new InboxDAO().getInbox(new AccountDAO().getCurrentAccount().getAccountID(), tiltle);
-        String body = inbox.getBody();
-        String classSectionName = new ClassSectionDAO().getClassSectionName(inbox.getClassSectionID());
+        String selectButton = SharedData.getInstance().getSelectedButton();
+        if(selectButton.equals("inbox")){
+            Inbox inbox = new InboxDAO().getReceiveInbox(new AccountDAO().getCurrentAccount().getAccountID(), tiltle);
+            String body = inbox.getBody();
+            String classSectionName = new ClassSectionDAO().getClassSectionName(inbox.getClassSectionID());
 
-        Read_tiltle.setText(tiltle);
-        Read_sender_name.setText(senderName);
-        Read_ClassSection.setText(classSectionName);
-        Read_Body.setText(body);
+            Read_tiltle.setText(tiltle);
+            Read_sender_name.setText(senderName);
+            Read_ClassSection.setText(classSectionName);
+            Read_Body.setText(body);
+        
+        }else if(selectButton.equals("sent")){
+            Inbox inbox = new InboxDAO().getSendInbox(new AccountDAO().getCurrentAccount().getAccountID(), tiltle);
+            String body = inbox.getBody();
+            String classSectionName = new ClassSectionDAO().getClassSectionName(inbox.getClassSectionID());
+
+            Read_tiltle.setText(tiltle);
+            Read_sender_name.setText(senderName);
+            Read_ClassSection.setText(classSectionName);
+            Read_Body.setText(body);
+        }
     }
 
     @Override

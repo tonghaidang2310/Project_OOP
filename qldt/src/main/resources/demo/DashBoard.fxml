@@ -324,7 +324,6 @@
                                  <children>
                                     <AnchorPane fx:id="Inbox_InboxForm" prefHeight="545.0" prefWidth="740.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <TextField fx:id="Inbox_Inbox_Search" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0" promptText="Search" styleClass="search" visible="false" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="9.0" />
                                           <FontAwesomeIcon glyphName="SEARCH" layoutX="14.0" layoutY="31.0" size="1.5em" text="" visible="false" wrappingWidth="16.714284896850586" />
                                           <ScrollPane layoutX="9.0" layoutY="58.0" prefHeight="526.0" prefWidth="722.0" styleClass="table-view" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0">
                                              <content>
@@ -349,13 +348,8 @@
                                                 </VBox>
                                              </content>
                                           </ScrollPane>
-                                          <Button fx:id="Inbox_Inbox_Delete_btn" layoutX="690.0" layoutY="9.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="36.0" styleClass="delete-btn" visible="false">
-                                             <graphic>
-                                                <FontAwesomeIcon fill="WHITE" glyphName="TRASH" size="1.75em" />
-                                             </graphic>
-                                          </Button>
                                        </children></AnchorPane>
-                                    <AnchorPane fx:id="Inbox_WriteForm" prefHeight="545.0" prefWidth="740.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <AnchorPane fx:id="Inbox_WriteForm" prefHeight="545.0" prefWidth="740.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <Label layoutX="14.0" layoutY="14.0" text="Soạn tin nhắn">
                                              <font>
@@ -471,9 +465,8 @@
                                           <Button fx:id="Inbox_send_btn" layoutX="680.0" layoutY="508.0" mnemonicParsing="false" onAction="#sendInbox" prefHeight="29.0" prefWidth="61.0" styleClass="signout" text="Send" textFill="WHITE" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="513.0" />
                                           <TextArea fx:id="Inbox_body" layoutX="4.0" layoutY="196.0" prefHeight="309.0" prefWidth="740.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                        </children></AnchorPane>
-                                    <AnchorPane fx:id="Inbox_SentForm" layoutX="10.0" layoutY="10.0" prefHeight="555.0" prefWidth="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <AnchorPane fx:id="Inbox_SentForm" layoutX="10.0" layoutY="10.0" prefHeight="555.0" prefWidth="750.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <TextField layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="200.0" promptText="Search" styleClass="search" visible="false" AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="9.0" />
                                           <FontAwesomeIcon glyphName="SEARCH" layoutX="14.0" layoutY="31.0" size="1.5em" text="" visible="false" wrappingWidth="16.714284896850586" />
                                           <ScrollPane layoutX="9.0" layoutY="58.0" prefHeight="528.0" prefWidth="722.0" styleClass="table-view" AnchorPane.bottomAnchor="9.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="9.0">
                                              <content>
@@ -498,11 +491,6 @@
                                                 </VBox>
                                              </content>
                                           </ScrollPane>
-                                          <Button layoutX="690.0" layoutY="9.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="36.0" styleClass="delete-btn" visible="false">
-                                             <graphic>
-                                                <FontAwesomeIcon fill="WHITE" glyphName="TRASH" size="1.75em" />
-                                             </graphic>
-                                          </Button>
                                        </children>
                                     </AnchorPane>
                                  </children>
