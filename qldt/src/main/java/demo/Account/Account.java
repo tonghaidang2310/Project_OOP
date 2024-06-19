@@ -5,19 +5,19 @@ package demo.Account;
  */
 
 public class Account {
-    private String id;
+    private int id;
     private String username;
     private String password;
     private String userType;
 
-    public Account(String id, String username, String password, String userType) {
+    public Account(int id, String username, String password, String userType) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.userType = userType;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

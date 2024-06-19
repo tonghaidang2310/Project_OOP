@@ -174,4 +174,21 @@ public class ClassSectionDAO {
             return null;
         }
     }
+
+    public String getLecturerName(String classSectionId) {
+        try {
+            connect = DataBase.connecDb();
+            prepare = connect.prepareStatement("SELECT lecturerID FROM classsection WHERE classSectionID = ?");
+            prepare.setString(1, classSectionId);
+            result = prepare.executeQuery();
+            if (result.next()) {
+                String lecturerId = result.getString("lecturerID");
+                return new LecturerDAO().getNameLecturer(lecturerId);
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

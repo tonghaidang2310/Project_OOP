@@ -5,7 +5,7 @@ package demo.Account;
  */
 
 public class CurrentAccount {
-    private String AccountID;
+    private int AccountID;
     private String LecturerID;
     private String StudentID;
     private String AccountType;
@@ -28,7 +28,7 @@ public class CurrentAccount {
         this.Password = lecturerAccount.getPassword();
     }
 
-    public String getAccountID(){ return this.AccountID;}
+    public int getAccountID(){ return this.AccountID;}
 
     public String getLecturerID(){ return this.LecturerID;}
 

@@ -145,14 +145,14 @@ public class AccountDAO {
             String userTypeId = "";
             String pass = "";
             String user = "";
-            String accountID = "";
+            int accountID = 0;
 
             if(result.next()){
                 userType = result.getString("UserType");
                 userTypeId = result.getString(userType + "ID");
                 pass = result.getString("password");
                 user = result.getString("username");
-                accountID = result.getString("AccountID");
+                accountID = result.getInt("AccountID");
             }
             return (userType.equals("Student")) ? new StudentAccount(accountID, user, pass, userTypeId) : new LecturerAccount(accountID, username, password, userTypeId);
         }catch(Exception e){
@@ -181,6 +181,25 @@ public class AccountDAO {
         return type;
     }
 
+    public String checkTypeAccount(int accountID){
+        String type = "";
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT UserType FROM account WHERE AccountID = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setInt(1, accountID);
+
+            result = prepare.executeQuery();
+
+            if(result.next()){
+                type = result.getString("UserType");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return type;
+    }
+
     // Hàm thêm tài khoản sinh viên hiện tại đang đăng nhập
     public void addCurrentAccount(StudentAccount studentAccount){
         CurrentAccount currentAccount = getCurrentAccount();
@@ -191,7 +210,7 @@ public class AccountDAO {
             connect = DataBase.connecDb();
             String sql = "INSERT INTO session (AccountID, Username, Password, UserType, StudentID) VALUES (?, ?, ?, ?, ?)";
             prepare = connect.prepareStatement(sql);
-            prepare.setString(1, studentAccount.getId());
+            prepare.setInt(1, studentAccount.getId());
             prepare.setString(2, studentAccount.getUsername());
             prepare.setString(3, studentAccount.getPassword());
             prepare.setString(4, studentAccount.getUserType());
@@ -213,7 +232,7 @@ public class AccountDAO {
             connect = DataBase.connecDb();
             String sql = "INSERT INTO session (AccountID, Username, Password, UserType, LecturerID) VALUES (?, ?, ?, ?, ?)";
             prepare = connect.prepareStatement(sql);
-            prepare.setString(1, lecturerAccount.getId());
+            prepare.setInt(1, lecturerAccount.getId());
             prepare.setString(2, lecturerAccount.getUsername());
             prepare.setString(3, lecturerAccount.getPassword());
             prepare.setString(4, lecturerAccount.getUserType());
@@ -241,12 +260,12 @@ public class AccountDAO {
     }
 
     // Hàm xóa tài khoản hiện tại đang đăng nhập
-    public void removeCurrentAccount(String accountID){
+    public void removeCurrentAccount(int accountID){
         try{
             connect = DataBase.connecDb();
             String sql = "DELETE FROM session WHERE AccountID = ?";
             prepare = connect.prepareStatement(sql);
-            prepare.setString(1, accountID);
+            prepare.setInt(1, accountID);
 
             prepare.executeUpdate();
         }catch(Exception e){
@@ -266,7 +285,7 @@ public class AccountDAO {
 
             if(result.next()){
                 String userType = result.getString("UserType");
-                String accountID = result.getString("AccountID");
+                int accountID = result.getInt("AccountID");
                 String username = result.getString("Username");
                 String password = result.getString("Password");
                 String userTypeId = result.getString(userType + "ID");
@@ -285,12 +304,12 @@ public class AccountDAO {
     }
 
     // Hàm lấy thông tin người dùng
-    public <T> Object getInfoPerson(String ID, String userType){
+    public <T> Object getInfoPerson(String userTypeID, String userType){
         try{
             connect = DataBase.connecDb();
             String sql = "SELECT * FROM " + userType + " WHERE " + userType + "ID = ?";
             prepare = connect.prepareStatement(sql);
-            prepare.setString(1, ID);
+            prepare.setString(1, userTypeID);
 
             result = prepare.executeQuery();
 
@@ -322,6 +341,68 @@ public class AccountDAO {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public <T> Object getInfoPerson(int accountID){
+        String userType = checkTypeAccount(accountID);
+        String userTypeID = getUserTypeID(accountID);
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT * FROM " + userType + " WHERE " + userType + "ID = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, userTypeID);
+
+            result = prepare.executeQuery();
+
+            String id = "";
+            String fName = "";
+            String lName = "";
+            String address = "";
+            String phone = "";
+            String email = "";
+            String gender = "";
+
+            if(result.next()){
+                id = result.getString(userType + "ID");
+                fName = result.getString("FirstName");
+                lName = result.getString("LastName");
+                if(userType.equals("Student"))
+                    address = result.getString("Address");
+                phone = result.getString("PhoneNumber");
+                email = result.getString("Email");
+                gender = result.getString("gender");
+            }
+            if(userType.equals("Student")){
+                return new Student(fName, lName, phone, email, gender, id, address);
+            }else if(userType.equals("Lecturer")){
+                return new Lecturer(fName, lName, phone, email, gender, id);
+            }
+            return null;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getUserTypeID(int accountID){
+        String id = "";
+        String userType = "";
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT * FROM account WHERE AccountID = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setInt(1, accountID);
+
+            result = prepare.executeQuery();
+
+            if(result.next()){
+                userType = result.getString("UserType");
+                id = result.getString(userType + "ID");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return id;
     }
 
     public boolean checkUsername(String username){
@@ -362,17 +443,36 @@ public class AccountDAO {
         return pass;
     }
 
-    public void changePassword(String accountID, String password){
+    public void changePassword(int accountID, String password){
         try{
             connect = DataBase.connecDb();
             String sql = "UPDATE account SET password = ? WHERE AccountID = ?";
             prepare = connect.prepareStatement(sql);
             prepare.setString(1, hashPassword(password));
-            prepare.setString(2, accountID);
+            prepare.setInt(2, accountID);
 
             prepare.executeUpdate();
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public int getAccountId(String studentID){
+        int id = 0;
+        try{
+            connect = DataBase.connecDb();
+            String sql = "SELECT AccountID FROM account WHERE StudentID = ?";
+            prepare = connect.prepareStatement(sql);
+            prepare.setString(1, studentID);
+
+            result = prepare.executeQuery();
+
+            if(result.next()){
+                id = result.getInt("AccountID");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return id;
     }
 }

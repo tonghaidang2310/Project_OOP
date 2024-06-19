@@ -90,4 +90,20 @@ public class StudentDAO {
         }
         return students;
     }
+
+    public String getStudentName(String studentId) {
+        try {
+            connect = DataBase.connecDb();
+            prepare = connect.prepareStatement("SELECT * FROM Student WHERE StudentID = ?");
+            prepare.setString(1, studentId);
+            result = prepare.executeQuery();
+            if (result.next()) {
+                return result.getString("firstName") + " " + result.getString("lastName");
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

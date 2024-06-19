@@ -17,8 +17,10 @@ import demo.Course.Course;
 import demo.DAO.AccountDAO;
 import demo.DAO.ClassSectionDAO;
 import demo.DAO.CourseDAO;
+import demo.DAO.InboxDAO;
 import demo.DAO.StudentClassSectionDAO;
 import demo.DAO.StudentDAO;
+import demo.Entity.Inbox;
 import demo.Entity.Lecturer;
 import demo.Entity.Student;
 
@@ -27,15 +29,18 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -101,10 +106,28 @@ public class dashBoardController implements Initializable{
     private AnchorPane Inbox_SentForm;
 
     @FXML
-    private ComboBox<?> Inbox_Course;
+    private ComboBox<String> Inbox_Course;
 
     @FXML
-    private ComboBox<?> Inbox_Receiver;
+    private ComboBox<String> Inbox_Receiver;
+
+    @FXML
+    private VBox Inbox_Inbox_table;
+
+    @FXML
+    private HBox Inbox_Inbox_Table_Tiltle;
+
+    @FXML
+    private Button Inbox_Inbox_Delete_btn;
+
+    @FXML
+    private TextField Inbox_Inbox_Search;
+
+    @FXML
+    private VBox Inbox_Sent_Table;
+
+    @FXML
+    private HBox Inbox_Sent_Table_Tiltle;
 
     @FXML
     private TextField Inbox_Tiltle;
@@ -116,7 +139,7 @@ public class dashBoardController implements Initializable{
     private TextArea Inbox_body;
 
     @FXML
-    private ComboBox<?> Inbox_position;
+    private ComboBox<String> Inbox_position;
 
     @FXML
     private Button Inbox_send_btn;
@@ -441,7 +464,169 @@ public class dashBoardController implements Initializable{
     }
 
     // Inbox
+
+    private String[] inboxPosition = {"All", "Student", "Lecturer"};
+    private List<String> inboxReceiverID = new ArrayList<>();
+    private List<String> studentNameList = new ArrayList<>();
+
+    public void Inbox_position(){
+        List<String> listPosition = new ArrayList<>();
+
+        for(String s : inboxPosition){
+            listPosition.add(s);
+        }
+
+        ObservableList<String> listData = FXCollections.observableArrayList(listPosition);
+
+        Inbox_position.setItems(listData);
+    }
+
+    private List<String> getInboxClassSection(){
+        List<String> listClassSection = new ArrayList<>();
+        List<String> classSectionList = new StudentClassSectionDAO().getStudentClassSections(currentAccount.getStudentID());
+
+        for(String classSection : classSectionList){
+            listClassSection.add(new ClassSectionDAO().getClassSectionName(classSection));
+        }
+
+        return listClassSection;
+    }
+
+    public void Inbox_Course(){
+        List<String> listData = getInboxClassSection();
+
+        ObservableList<String> list = FXCollections.observableArrayList(listData);
+
+        Inbox_Course.setItems(list);
+    }
+
+    private List<String> getInboxReceiver(String classSectionName, String position){
+        List<String> listReceiver = new ArrayList<>();
+
+        String classSectionID = new ClassSectionDAO().getClassSectionID(classSectionName);
+        List<String> studentList = new StudentClassSectionDAO().getStudents(classSectionID);
+        
+        inboxReceiverID.clear();
+        studentNameList.clear();
+
+        for(String studentID : studentList){
+            studentNameList.add(new StudentDAO().getStudentName(studentID));
+            inboxReceiverID.add(studentID);
+        }
+        String lecturer = new ClassSectionDAO().getLecturerName(classSectionID);
+
+        if(position.equals("All")){
+            listReceiver.add(lecturer);
+            listReceiver.addAll(studentNameList);
+        }else if(position.equals("Student")){
+            listReceiver.addAll(studentNameList);
+        }else if(position.equals("Lecturer")){
+            listReceiver.add(lecturer);
+        }
+
+        return listReceiver;
+    }
+
+    public void Inbox_Receiver(String classSectionName, String position){
+        List<String> listData = getInboxReceiver(classSectionName, position);
+
+        ObservableList<String> list = FXCollections.observableArrayList(listData);
+
+        Inbox_Receiver.setItems(list);
+    }
+
+    public void setInbox(){
+        Inbox_Receiver.setVisible(false);
+        Inbox_position();
+        Inbox_Course();
+        Inbox_Course.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            String classSectionName = newValue;
+            String position = Inbox_position.getSelectionModel().getSelectedItem();
+            if(classSectionName != null && position != null){
+                Inbox_Receiver.setVisible(true);
+                Inbox_Receiver(classSectionName, position);
+            }
+        });
+        
+        Inbox_position.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            String classSectionName = Inbox_Course.getSelectionModel().getSelectedItem();
+            String position = newValue;
+            if(classSectionName != null && position != null){
+                Inbox_Receiver.setVisible(true);
+                Inbox_Receiver(classSectionName, position);
+            }
+        });
+    }
     
+    private String getReceiverID(String receiverName){
+        int index = studentNameList.indexOf(receiverName);
+        if(index == -1){
+            return null;
+        }else{
+            return inboxReceiverID.get(index);
+        }
+    }
+
+    public void sendInbox(){
+        int senderAccountID = currentAccount.getAccountID();
+        String receiverID = getReceiverID(Inbox_Receiver.getSelectionModel().getSelectedItem());
+        int receiverAccountID = new AccountDAO().getAccountId(receiverID);
+        String tiltle = Inbox_Tiltle.getText();
+        String body = Inbox_body.getText();
+        String classSectionId = new ClassSectionDAO().getClassSectionID(Inbox_Course.getSelectionModel().getSelectedItem());
+
+        if(receiverID.isEmpty() || tiltle.isEmpty() || body.isEmpty()){
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill in all fields");
+            alert.showAndWait();
+        }else{
+            new InboxDAO().addInbox(senderAccountID, receiverAccountID, tiltle, body, classSectionId);
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Information Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Message sent successfully");
+            alert.showAndWait();
+        }
+    }
+
+    public void setInboxData(){
+        List<Inbox> listInbox = new InboxDAO().getReceivedInboxs(currentAccount.getAccountID());
+
+        for(Inbox inbox : listInbox){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Inbox.fxml"));
+            String senderName = new InboxDAO().getSenderName(inbox.getSenderID());
+            String tiltle = inbox.getTiltle();
+            try {
+                HBox hbox = loader.load();
+                InboxController controller = loader.getController();
+                controller.setData(senderName, tiltle);
+                Inbox_Inbox_table.getChildren().add(hbox);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setSentData(){
+        List<Inbox> listInbox = new InboxDAO().getSentInboxs(currentAccount.getAccountID());
+
+        for(Inbox inbox : listInbox){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Inbox.fxml"));
+            String receiverName = new InboxDAO().getReceiverName(inbox.getReceiverID());
+            String tiltle = inbox.getTiltle();
+            try {
+                HBox hbox = loader.load();
+                InboxController controller = loader.getController();
+                controller.setData(receiverName, tiltle);
+                Inbox_Sent_Table.getChildren().add(hbox);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     // Setting
     private String[] genderStatus = {"Male", "Female", "Other"};
 
@@ -622,6 +807,7 @@ public class dashBoardController implements Initializable{
             Inbox_form.setVisible(false);
             dashBoard_form.setVisible(false);
             setStyleButton(Schedule_btn);
+
         }else if(e.getSource() == Setting_btn){
             Course_form.setVisible(false);
             Register_form.setVisible(false);
@@ -642,6 +828,7 @@ public class dashBoardController implements Initializable{
             setStyleButton(InboxForm_btn);
 
             switchInboxForm(e);
+            setInbox();
         }
     }
 
@@ -670,11 +857,18 @@ public class dashBoardController implements Initializable{
             Inbox_SentForm.setVisible(false);
             Inbox_WriteForm.setVisible(false);
             setStyleInboxButton(Inbox_btn);
+            Inbox_Inbox_table.getChildren().clear();
+            Inbox_Inbox_table.getChildren().add(Inbox_Inbox_Table_Tiltle);
+            setInboxData();
         }else if(e.getSource() == Send_btn){
             Inbox_InboxForm.setVisible(false);
             Inbox_SentForm.setVisible(true);
             Inbox_WriteForm.setVisible(false);
             setStyleInboxButton(Send_btn);
+
+            Inbox_Sent_Table.getChildren().clear();
+            Inbox_Sent_Table.getChildren().add(Inbox_Sent_Table_Tiltle);
+            setSentData();
         }else if(e.getSource() == Write_btn){
             Inbox_InboxForm.setVisible(false);
             Inbox_SentForm.setVisible(false);
@@ -815,8 +1009,11 @@ public class dashBoardController implements Initializable{
         Course_status();
         Register_status();
         ChangeInfoGender_status();
+        setInbox();
 
         setSettingChangeInfoData();
         setInfoData();
+
+        currentAccount = new AccountDAO().getCurrentAccount();
     }
 }
