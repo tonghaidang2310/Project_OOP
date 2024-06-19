@@ -173,18 +173,10 @@ CREATE TABLE IF NOT EXISTS Email (
     EmailID INT AUTO_INCREMENT PRIMARY KEY,
     SenderID INT,
     ReceiverID INT,
+    ClassSectionID VARCHAR(50),
     Tiltle VARCHAR(255) NOT NULL,
     Body TEXT NOT NULL,
     FOREIGN KEY (SenderID) REFERENCES Account(AccountID),
-    FOREIGN KEY (ReceiverID) REFERENCES Account(AccountID)
-);
-
--- Bảng EmailStatus để lưu trữ trạng thái của email (đọc, chưa đọc)
-CREATE TABLE IF NOT EXISTS EmailStatus (
-    EmailID INT,
-    AccountID INT,
-    Status ENUM('Read', 'Unread') DEFAULT 'Unread',
-    PRIMARY KEY (EmailID, AccountID),
-    FOREIGN KEY (EmailID) REFERENCES Email(EmailID) ON DELETE CASCADE,
-    FOREIGN KEY (AccountID) REFERENCES Account(AccountID) ON DELETE CASCADE
+    FOREIGN KEY (ReceiverID) REFERENCES Account(AccountID),
+    FOREIGN KEY (ClassSectionID) REFERENCES ClassSection(ClassSectionID)
 );
